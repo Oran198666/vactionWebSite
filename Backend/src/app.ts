@@ -1,11 +1,41 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import cors from "cors";
+import { errorMiddleware } from "./middleware/error-middleware";
+import { appConfig } from "./utils/app-config";
+import { dal } from "./utils/dal";
+import { loggerMiddleware } from "./middleware/logger-middleware";
 
-const server = express();
+class App {
 
-server.use(express.json());
+    public start(): void {
 
-server.get("/api/test", (request: Request, response: Response) => {
-    response.json({ message: "Server running" });
-});
+        // Configure smart-saver - images path:
 
-server.listen(4000, () => console.log("Listening on http://localhost:4000"));
+
+        // Create our server object:
+        const server = express();
+
+        // System middleware:
+
+        server.use(cors());
+        server.use(express.json());
+
+        // Register "before" middleware:
+        server.use(loggerMiddleware.logToConsole);
+
+        // Register controllers:
+
+        // Register "after" middleware:
+        server.use(errorMiddleware.routeNotFound);
+        server.use(errorMiddleware.catchAll);
+
+        // Run server:
+       server.listen(appConfig.port, () => console.log("Listening..."));
+
+    }
+}
+
+const app = new App();
+app.start();
+
+// taskkill /F /IM node.exe

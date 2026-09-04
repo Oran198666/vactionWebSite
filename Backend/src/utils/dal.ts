@@ -9,7 +9,8 @@ class Dal {
         user: appConfig.mysqlUser,
         password: appConfig.mysqlPassword,
         database: appConfig.mysqlDatabase,
-        port: appConfig.mysqlPort
+        port: appConfig.mysqlPort,
+        dateStrings: true,
     };
 
     // Connection object:

@@ -4,6 +4,8 @@ dotenv.config({ quiet: true })
 
 class AppConfig {
     public readonly environment = process.env.ENVIRONMENT!;
+    public readonly isDevelopment = this.environment === "development";
+    public readonly isProduction = this.environment === "production";
     public readonly mysqlPort = +(process.env.MYSQL_PORT!);
     public readonly mysqlHost = process.env.MYSQL_HOST!;
     public readonly mysqlUser = process.env.MYSQL_USER!;
