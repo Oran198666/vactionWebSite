@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
+import { securityMiddleware } from "./middleware/security-middleware";
 import { errorMiddleware } from "./middleware/error-middleware";
 import { appConfig } from "./utils/app-config";
-import { dal } from "./utils/dal";
+import fileUpload from "express-fileupload";
+import { authController } from "./controllers/auth-controller";
 import { loggerMiddleware } from "./middleware/logger-middleware";
 
 class App {
@@ -11,19 +13,23 @@ class App {
 
         // Configure smart-saver - images path:
 
-
         // Create our server object:
         const server = express();
 
         // System middleware:
+        securityMiddleware.headerProtection(server); // Prevent header attacks.
+        securityMiddleware.registerRateLimit(server); // Prevent DoS attacks.
 
         server.use(cors());
         server.use(express.json());
+        server.use(fileUpload());
 
         // Register "before" middleware:
+        server.use(securityMiddleware.preventXss)
         server.use(loggerMiddleware.logToConsole);
 
         // Register controllers:
+        server.use("/", authController.router);
 
         // Register "after" middleware:
         server.use(errorMiddleware.routeNotFound);
