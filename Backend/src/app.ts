@@ -6,12 +6,15 @@ import { appConfig } from "./utils/app-config";
 import fileUpload from "express-fileupload";
 import { authController } from "./controllers/auth-controller";
 import { loggerMiddleware } from "./middleware/logger-middleware";
+import path from "path";
+import { fileSaver } from "uploaded-file-saver";
 
 class App {
 
     public start(): void {
 
         // Configure smart-saver - images path:
+        fileSaver.config(path.join(__dirname, "1-assets", "images"));
 
         // Create our server object:
         const server = express();
