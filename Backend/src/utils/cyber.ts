@@ -31,18 +31,16 @@ class Cyber {
 
     }
 
-    // Verify token:
+
     public verifyToken = (token: string): boolean => {
         try {
-            //failure to validate
+
             if (!token) {
                 return false;
             }
 
-            // token Verification
             jwt.verify(token, appConfig.jwtSecret!);
 
-            // legal token
             return true;
         }
         catch (err: any) {
@@ -50,11 +48,16 @@ class Cyber {
         }
     }
 
-    // Verify admin:
     public verifyAdmin = (token: string): boolean =>{
         if(!this.verifyToken(token)) return false;
         const payload = jwt.decode(token) as {user:UserModel};
         return payload?.user?.roleId === Role.Admin;
+    }
+
+    
+    public getUserFromToken = (token:string): UserModel =>{
+        const payload = jwt.decode(token) as {user:UserModel};
+        return payload.user;
     }
 }
 
