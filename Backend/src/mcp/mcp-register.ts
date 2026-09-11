@@ -15,8 +15,7 @@ class McpRegister {
     public registerGetAveragePriceTool(mcpServer: McpServer): void {
         const uniqueName = "get_average_price";
         const config = {
-            description: "The average price of all vacations, as a single number."
-        };
+            description: "The average price across all vacations in the database, returned as a single number. Use this for any question about average, mean or typical price."        };
         mcpServer.registerTool(uniqueName,config, mcpTools.getAveragePriceTool);
     }
 
