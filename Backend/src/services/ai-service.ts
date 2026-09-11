@@ -6,7 +6,7 @@ class AiService {
 
     public getRecommendation = async (destination: string): Promise<string> => {
         const response = await this.openai.chat.completions.create({
-            model: "gpt-4o-mini",
+            model: appConfig.openaiModel,
             messages: [
                 {
                     role: "system", content: `You are a travel advisor. For the destination given,

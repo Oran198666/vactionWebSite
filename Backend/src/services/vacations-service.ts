@@ -26,11 +26,37 @@ class VacationsService {
         return vacation;
     }
 
+    public async getAllActiveVacations(): Promise<VacationModel[]> {
+        const sql = `SELECT * FROM vacations
+                    WHERE startDate <= CURDATE() AND endDate >= CURDATE()
+                    ORDER BY startDate`;
+        return await dal.execute(sql) as VacationModel[];
+    }
+
+    public async getAveragePrice(): Promise<number> {
+        const sql = "SELECT ROUND(AVG(price), 2) AS averagePrice FROM vacations";
+        const result = await dal.execute(sql) as { averagePrice: number }[];
+        return result[0].averagePrice;
+    }
+
+    public async getFutureVacationsByRegion(region: string): Promise<VacationModel[]> {
+        const sql = `SELECT * FROM vacations
+            WHERE startDate > CURDATE() AND continent = ?
+            ORDER BY startDate`;
+        return await dal.execute(sql, [region]) as VacationModel[];
+    }
+
+    public async getAllVacationsSimple(): Promise<VacationModel[]> {
+        const sql = `SELECT * FROM vacations ORDER BY startDate`;
+        return await dal.execute(sql) as VacationModel[];
+    }
+
+
     public async addVacation(vacation: VacationModel): Promise<VacationModel> {
         vacation.validate();
         vacation.imageName = await fileSaver.add(vacation.image!);
-        const sql = "INSERT INTO vacations (destination, description, startDate, endDate, price, imageName) VALUES (?,?,?,?,?,?)";
-        const info = await dal.execute(sql, [vacation.destination, vacation.description, vacation.startDate, vacation.endDate, vacation.price, vacation.imageName]) as OkPacketParams;
+        const sql = "INSERT INTO vacations (destination, continent, description, startDate, endDate, price, imageName) VALUES (?,?,?,?,?,?,?)";
+        const info = await dal.execute(sql, [vacation.destination, vacation.continent, vacation.description, vacation.startDate, vacation.endDate, vacation.price, vacation.imageName]) as OkPacketParams;
         vacation.vacationId = info.insertId;
         return vacation;
     }
@@ -40,12 +66,11 @@ class VacationsService {
         if (vacation.image) {
             const oldName = (await this.getOneVacation(vacation.vacationId!)).imageName;
             vacation.imageName = await fileSaver.update(oldName!, vacation.image);
-        }
-        else {
+        } else {
             vacation.imageName = (await this.getOneVacation(vacation.vacationId!)).imageName;
         }
-        const sql = `UPDATE vacations SET destination = ?, description = ?, startDate = ?, endDate = ?, price = ?, imageName = ? where vacationId = ?`;
-        const info = await dal.execute(sql, [vacation.destination, vacation.description, vacation.startDate, vacation.endDate, vacation.price, vacation.imageName, vacation.vacationId]) as OkPacketParams;
+        const sql = `UPDATE vacations SET destination = ?, continent = ?, description = ?, startDate = ?, endDate = ?, price = ?, imageName = ? where vacationId = ?`;
+const info = await dal.execute(sql, [vacation.destination, vacation.continent, vacation.description, vacation.startDate, vacation.endDate, vacation.price, vacation.imageName, vacation.vacationId]) as OkPacketParams;
         if (info.affectedRows === 0) {
             throw new ClientError(StatusCode.NotFound, `Vacation ${vacation.vacationId} not found.`);
         }

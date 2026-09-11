@@ -61,7 +61,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`userId`),
   UNIQUE KEY `uq_users_email` (`email`),
   CONSTRAINT `ck_users_role` CHECK ((`roleId` in (1,2)))
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Admin','User','admin@vacations.com','REPLACE_WITH_HASH',1),(2,'Dana','Levi','dana@gmail.com','REPLACE_WITH_HASH',2),(3,'Yossi','Cohen','yossi@gmail.com','REPLACE_WITH_HASH',2),(4,'Maya','Bar','maya@gmail.com','REPLACE_WITH_HASH',2);
+INSERT INTO `users` VALUES (1,'Admin','User','admin@vacations.com','ebad9139b79b87f26b421c27abd201826de07e15a7a7007387db63bbe1d6499049ddf9ab52cfbc6813f6624755ac528b9640156f5913a7d54de8be8474398bc3',1),(2,'Dana','Levi','dana@gmail.com','ebad9139b79b87f26b421c27abd201826de07e15a7a7007387db63bbe1d6499049ddf9ab52cfbc6813f6624755ac528b9640156f5913a7d54de8be8474398bc3',2),(3,'Yossi','Cohen','yossi@gmail.com','ebad9139b79b87f26b421c27abd201826de07e15a7a7007387db63bbe1d6499049ddf9ab52cfbc6813f6624755ac528b9640156f5913a7d54de8be8474398bc3',2),(4,'Maya','Bar','maya@gmail.com','ebad9139b79b87f26b421c27abd201826de07e15a7a7007387db63bbe1d6499049ddf9ab52cfbc6813f6624755ac528b9640156f5913a7d54de8be8474398bc3',2),(13,'Test','User','test@test.com','ebad9139b79b87f26b421c27abd201826de07e15a7a7007387db63bbe1d6499049ddf9ab52cfbc6813f6624755ac528b9640156f5913a7d54de8be8474398bc3',2),(14,'Test','User','newuser@test.com','ebad9139b79b87f26b421c27abd201826de07e15a7a7007387db63bbe1d6499049ddf9ab52cfbc6813f6624755ac528b9640156f5913a7d54de8be8474398bc3',2);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,6 +84,7 @@ DROP TABLE IF EXISTS `vacations`;
 CREATE TABLE `vacations` (
   `vacationId` int NOT NULL AUTO_INCREMENT,
   `destination` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `continent` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `description` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
@@ -93,7 +94,7 @@ CREATE TABLE `vacations` (
   KEY `idx_vacations_startDate` (`startDate`),
   CONSTRAINT `ck_vacations_dates` CHECK ((`endDate` >= `startDate`)),
   CONSTRAINT `ck_vacations_price` CHECK (((`price` >= 0) and (`price` <= 10000)))
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +103,7 @@ CREATE TABLE `vacations` (
 
 LOCK TABLES `vacations` WRITE;
 /*!40000 ALTER TABLE `vacations` DISABLE KEYS */;
-INSERT INTO `vacations` VALUES (1,'Rome, Italy','Wander the Roman Forum, the Pantheon and the Colosseum, then lose yourself in Trastevere\'s cobbled lanes over plates of cacio e pepe. Includes a skip-the-line Vatican Museums tour.','2026-06-10','2026-06-18',1931.00,'rome.jpg'),(2,'Rhodes, Greece','Sun, sea and a UNESCO-listed medieval old town. Days split between Pefkos Beach and the Palace of the Grand Master, with a day trip to Lindos Acropolis.','2026-07-05','2026-07-15',1462.00,'rhodes.jpg'),(3,'Prague, Czech Republic','Gothic spires, the Charles Bridge at sunrise and the astronomical clock. Includes a Vltava river cruise and a walking tour of the Jewish Quarter.','2026-08-01','2026-08-09',1120.00,'prague.jpg'),(4,'Barcelona, Spain','Gaudi\'s Sagrada Familia and Park Guell, tapas crawls through the Gothic Quarter, and lazy afternoons on Barceloneta Beach.','2026-08-20','2026-08-29',1655.00,'barcelona.jpg'),(5,'Santorini, Greece','Whitewashed cliffside villages above a flooded caldera. Sunset in Oia, a catamaran cruise to the hot springs, and wine tasting in Megalochori.','2026-08-22','2026-09-02',2210.00,'santorini.jpg'),(6,'Amsterdam, Netherlands','Canal-side cycling, the Van Gogh Museum and the Anne Frank House. Includes a day trip to the windmills of Zaanse Schans.','2026-08-18','2026-08-26',1385.00,'amsterdam.jpg'),(7,'Lisbon, Portugal','Tram 28 through Alfama, pasteis de nata in Belem and fado in a candlelit tavern. Includes a day in the palaces of Sintra.','2026-09-12','2026-09-20',1290.00,'lisbon.jpg'),(8,'Tokyo, Japan','Shibuya Crossing, Senso-ji at dawn and a day trip to Hakone for Mount Fuji views. Includes a 7-day Japan Rail Pass and a Tsukiji food tour.','2026-10-03','2026-10-15',3480.00,'tokyo.jpg'),(9,'Reykjavik, Iceland','Chase the northern lights, soak in the Blue Lagoon and drive the Golden Circle past Gullfoss and Geysir. Includes a glacier hike on Solheimajokull.','2026-11-08','2026-11-16',2640.00,'reykjavik.jpg'),(10,'Marrakesh, Morocco','Get pleasantly lost in the souks of the medina, sip mint tea on a riad rooftop, and ride camels into the Agafay desert for a night under the stars.','2026-11-20','2026-11-28',1075.00,'marrakesh.jpg'),(11,'Bangkok, Thailand','Golden temples, longtail boats through the klongs and the best street food on earth. Includes a day at the Damnoen Saduak floating market.','2026-12-05','2026-12-17',2150.00,'bangkok.jpg'),(12,'New York City, USA','Central Park in the snow, the Met, a Broadway show and the view from the Top of the Rock. Includes a ferry past the Statue of Liberty.','2027-01-09','2027-01-17',2890.00,'newyork.jpg'),(13,'Vienna, Austria','Schonbrunn Palace, coffee-house culture and an evening of Mozart at the Musikverein. Includes a day trip to the Wachau valley.','2027-02-14','2027-02-21',1520.00,'vienna.jpg'),(14,'Kyoto, Japan','Cherry blossom season among 1,600 temples. Fushimi Inari\'s torii gates, the Arashiyama bamboo grove and a tea ceremony in Gion.','2027-03-28','2027-04-07',3310.00,'kyoto.jpg');
+INSERT INTO `vacations` VALUES (1,'Rome, Italy','Europe','Wander the Roman Forum, the Pantheon and the Colosseum, then lose yourself in Trastevere\'s cobbled lanes over plates of cacio e pepe. Includes a skip-the-line Vatican Museums tour.','2026-11-02','2026-11-10',1931.00,'rome.jpg'),(2,'Rhodes, Greece','Europe','Sun, sea and a UNESCO-listed medieval old town. Days split between Pefkos Beach and the Palace of the Grand Master, with a day trip to Lindos Acropolis.','2026-11-16','2026-11-26',1462.00,'rhodes.jpg'),(3,'Prague, Czech Republic','Europe','Gothic spires, the Charles Bridge at sunrise and the astronomical clock. Includes a Vltava river cruise and a walking tour of the Jewish Quarter.','2026-12-01','2026-12-09',1120.00,'prague.jpg'),(4,'Barcelona, Spain','Europe','Gaudi\'s Sagrada Familia and Park Guell, tapas crawls through the Gothic Quarter, and lazy afternoons on Barceloneta Beach.','2026-12-14','2026-12-25',1655.00,'barcelona.jpg'),(5,'Santorini, Greece','Europe','Whitewashed cliffside villages above a flooded caldera. Sunset in Oia, a catamaran cruise to the hot springs, and wine tasting in Megalochori.','2027-01-05','2027-01-16',2210.00,'santorini.jpg'),(6,'Amsterdam, Netherlands','Europe','Canal-side cycling, the Van Gogh Museum and the Anne Frank House. Includes a day trip to the windmills of Zaanse Schans.','2027-01-20','2027-02-01',1385.00,'amsterdam.jpg'),(7,'Lisbon, Portugal','Europe','Tram 28 through Alfama, pasteis de nata in Belem and fado in a candlelit tavern. Includes a day in the palaces of Sintra.','2027-02-08','2027-02-16',1290.00,'lisbon.jpg'),(8,'Tokyo, Japan','Asia','Shibuya Crossing, Senso-ji at dawn and a day trip to Hakone for Mount Fuji views. Includes a 7-day Japan Rail Pass and a Tsukiji food tour.','2027-02-22','2027-03-06',3480.00,'tokyo.jpg'),(9,'Reykjavik, Iceland','Europe','Chase the northern lights, soak in the Blue Lagoon and drive the Golden Circle past Gullfoss and Geysir. Includes a glacier hike on Solheimajokull.','2027-03-15','2027-03-23',2640.00,'reykjavik.jpg'),(10,'Marrakesh, Morocco','Africa','Get pleasantly lost in the souks of the medina, sip mint tea on a riad rooftop, and ride camels into the Agafay desert for a night under the stars.','2027-04-05','2027-04-13',1075.00,'marrakesh.jpg'),(11,'Bangkok, Thailand','Asia','Golden temples, longtail boats through the klongs and the best street food on earth. Includes a day at the Damnoen Saduak floating market.','2027-04-19','2027-05-01',2150.00,'bangkok.jpg'),(12,'New York City, USA','North America','Central Park in the snow, the Met, a Broadway show and the view from the Top of the Rock. Includes a ferry past the Statue of Liberty.','2027-05-10','2027-05-18',2890.00,'newyork.jpg'),(13,'Vienna, Austria','Europe','Schonbrunn Palace, coffee-house culture and an evening of Mozart at the Musikverein. Includes a day trip to the Wachau valley.','2027-06-01','2027-06-08',1520.00,'vienna.jpg'),(14,'Kyoto, Japan','Asia','Cherry blossom season among 1,600 temples. Fushimi Inari\'s torii gates, the Arashiyama bamboo grove and a tea ceremony in Gion.','2027-06-21','2027-07-01',3310.00,'kyoto.jpg'),(16,'Split, Croatia','Europe','Diocletian\'s Palace, the Marjan hill trails and island-hopping day trips to Hvar and Brac from the old harbour','2027-07-14','2027-07-23',1840.00,'0b207d3c-f648-4279-9528-569fdbbf5f24.png');
 /*!40000 ALTER TABLE `vacations` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -115,4 +116,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-08-24 18:23:05
+-- Dump completed on 2026-09-08 18:24:42

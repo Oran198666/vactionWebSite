@@ -7,6 +7,7 @@ import { StatusCode } from "./enums";
 export const VacationSchema = z.object({
     vacationId: z.number().int().positive().optional(),
     destination: z.string().min(2).max(100),
+    continent: z.string().min(2).max(30),
     description: z.string().min(2).max(1000),
     startDate: z.string(),
     endDate: z.string(),
@@ -21,6 +22,7 @@ export type IVacationModel = z.infer<typeof VacationSchema>;
 export class VacationModel implements IVacationModel {
     public vacationId?: number;
     public destination: string;
+    public continent: string;
     public description: string;
     public startDate: string;
     public endDate: string;
@@ -35,6 +37,7 @@ export class VacationModel implements IVacationModel {
     public constructor(vacation: VacationModel) {
         this.vacationId = vacation.vacationId;
         this.destination = vacation.destination;
+        this.continent = vacation.continent;
         this.description = vacation.description;
         this.startDate = vacation.startDate;
         this.endDate = vacation.endDate;

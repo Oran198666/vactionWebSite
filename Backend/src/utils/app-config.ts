@@ -15,6 +15,7 @@ class AppConfig {
     public readonly hashSalt = process.env.HASH_SALT!;
     public readonly recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY!;
     public readonly openaiApiKey = process.env.OPENAI_API_KEY!;
+    public readonly openaiModel = process.env.OPENAI_MODEL!;
     public readonly port = process.env.PORT!;
 }
 export const appConfig = new AppConfig();

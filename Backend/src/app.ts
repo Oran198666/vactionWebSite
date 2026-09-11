@@ -7,18 +7,21 @@ import { errorMiddleware } from "./middleware/error-middleware";
 import { appConfig } from "./utils/app-config";
 import fileUpload from "express-fileupload";
 import { authController } from "./controllers/auth-controller";
+import { mcpClient } from "./mcp/mcp-client";
 import { loggerMiddleware } from "./middleware/logger-middleware";
 import path from "path";
 import { fileSaver } from "uploaded-file-saver";
 import { vacationsController } from "./controllers/vacations-controller";
 import { reportsController } from "./controllers/reports-controller";
+import { mcpController } from "./controllers/mcp-controller";
 
 class App {
 
-    public start(): void {
+    public async start(): Promise<void> {
 
         // Configure smart-saver - images path:
-        fileSaver.config(path.join(__dirname, "1-assets", "images"));
+        fileSaver.config(path.join(__dirname, "1-assets", "images"))
+        await mcpClient.init();
 
         // Create our server object:
         const server = express();
@@ -41,14 +44,14 @@ class App {
         server.use("/", likesController.router);
         server.use("/", reportsController.router)
         server.use("/", aiController.router);
+        server.use("/", mcpController.router)
 
         // Register "after" middleware:
         server.use(errorMiddleware.routeNotFound);
         server.use(errorMiddleware.catchAll);
 
         // Run server:
-       server.listen(appConfig.port, () => console.log("Listening..."));
-
+        server.listen(appConfig.port, () => console.log("Listening..."));
     }
 }
 

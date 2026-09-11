@@ -26,3 +26,4 @@ node_modules/
 dist/
 .env
 Backend/src/1-assets/images/*
+!Backend/src/1-assets/images/.gitkeep
