@@ -13,7 +13,7 @@ class VacationsController {
 
     public constructor() {
         this.router.get("/api/vacations/", securityMiddleware.verifyLoggedIn, this.getAllVacations);
-        this.router.get("/api/vacations/images/:imageName", securityMiddleware.verifyLoggedIn, this.getImageFile);
+        this.router.get("/api/vacations/images/:imageName", this.getImageFile);
         this.router.get("/api/vacations/:vacationId", securityMiddleware.verifyLoggedIn, this.getOneVacation);
         this.router.post("/api/vacations", securityMiddleware.verifyAdmin, this.addVacation);
         this.router.put("/api/vacations/:vacationId", securityMiddleware.verifyAdmin, this.updateVacation);
