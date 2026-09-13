@@ -24,8 +24,13 @@ class VacationsController {
         try {
             const token = request.headers.authorization?.substring(7);
             const user = cyber.getUserFromToken(token!);
-            const vacations = await vacationsService.getAllVacations(user.userId!);
-            response.json(vacations);
+
+            //Query params are strings - page defaults to 1, filter to none:
+            const page = +(request.query.page as string) || 1;
+            const filter = (request.query.filter as string) || "";
+
+            const result = await vacationsService.getAllVacations(user.userId!, page, filter);
+            response.json(result);
         }
         catch (err: any) {
             next(err);
