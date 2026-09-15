@@ -18,4 +18,4 @@ import { appConfig } from "./utils/app-config";
 import { cyber } from "./utils/cyber";
 
 console.log("SALT:", appConfig.hashSalt);
-console.log("HASH:", cyber.hashPassword("1234"));
+console.log("HASH:", cyber.hashPassword("Test1234"));
