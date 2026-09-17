@@ -9,12 +9,13 @@
 .Header img {
     width: 48px;
     height: auto;
-    filter: invert(1);
 }
 
 .Header h1 {
     font-size: 1.4rem;
     color: var(--gold);
+    text-transform: none;
+
 }
 
 .Header p {
@@ -23,3 +24,4 @@
     letter-spacing: 0.15em;
     text-transform: uppercase;
 }
+

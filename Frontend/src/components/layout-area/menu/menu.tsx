@@ -19,7 +19,7 @@ export function Menu() {
 
     return (
         <div className="Menu">
-            
+
             {/* public branch */}
             <NavLink to="/home">Home</NavLink>
             <NavLink to="/about">About</NavLink>
@@ -34,7 +34,7 @@ export function Menu() {
             {user && <>
                 <NavLink to="/vacations">Vacations</NavLink>
                 <NavLink to="/ai">AI recommendation</NavLink>
-                <NavLink to="/mcp">Ask the database</NavLink>
+                <NavLink to="/mcp">Ask about trips</NavLink>
             </>}
 
             {/*  admin branch */}

@@ -1,3 +1,44 @@
 .Login {
-	
+    max-width: 440px;
+    margin: 64px auto;
+}
+
+.Login form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 32px;
+}
+
+.Login label {
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 16px;
+}
+
+.Login input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+}
+
+.Login input:focus {
+    outline: none;
+    border-color: var(--gold);
+}
+
+.Login span {
+    color: #d9534f;
+    font-size: 0.75rem;
+    min-height: 1.2em;
+}
+
+.Login button {
+    margin-top: 28px;
+    padding: 14px;
 }
