@@ -1,3 +1,25 @@
 .Header {
-	
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: var(--space) calc(var(--space) * 2);
+    border-bottom: 1px solid var(--border);
+}
+
+.Header img {
+    width: 48px;
+    height: auto;
+    filter: invert(1);
+}
+
+.Header h1 {
+    font-size: 1.4rem;
+    color: var(--gold);
+}
+
+.Header p {
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
 }

@@ -1,3 +1,31 @@
 .Menu {
-	
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 18px calc(var(--space) * 2);
+    border-bottom: 1px solid var(--border);
+}
+
+.Menu span {
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    margin-left: auto;
+}
+
+/* Active route - subtle teal underline: */
+.Menu a.active {
+    color: #4db6ac;
+    border-bottom: 1px solid #4db6ac;
+    padding-bottom: 4px;
+}
+
+/* Logged-in user name: */
+.Menu span {
+    color: #e6c86e;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    margin-left: auto;
 }

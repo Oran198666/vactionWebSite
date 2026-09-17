@@ -46,10 +46,11 @@ export function VacationCard(props: VacationCardProps) {
             <img src={appConfig.imageUrl(props.vacation.imageName!)} alt={props.vacation.destination} />
             <h3>{props.vacation.destination}</h3>
             <p>{props.vacation.description}</p>
-            <span>{props.vacation.startDate} - {props.vacation.endDate}</span>
-            <span>${(+props.vacation.price).toFixed(2)}</span>
-            <span>{props.vacation.likesCount} likes</span>
+            <div className="Facts">
 
+                <span>{props.vacation.startDate} - {props.vacation.endDate}</span>
+                <span>${(+props.vacation.price).toFixed(2)}</span>
+                <span className="Likes">{props.vacation.likesCount} likes</span>            </div>
             {!isAdmin && (
                 <button onClick={toggleLike}>
                     {props.vacation.isLiked ? "♥" : "♡"}

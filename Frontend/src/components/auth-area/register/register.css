@@ -1,3 +1,44 @@
 .Register {
-	
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+.Register form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 32px;
+}
+
+.Register label {
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 16px;
+}
+
+.Register input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+}
+
+.Register input:focus {
+    outline: none;
+    border-color: var(--gold);
+}
+
+.Register span {
+    color: #d9534f;
+    font-size: 0.75rem;
+    min-height: 1.2em;
+}
+
+.Register button {
+    margin-top: 28px;
+    padding: 14px;
 }

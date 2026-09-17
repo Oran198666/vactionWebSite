@@ -1,3 +1,77 @@
-.VacationCard span {
-    margin-right: 12px;
+.VacationCard {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.VacationCard img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.VacationCard h3 {
+    color: var(--gold);
+    padding: 20px 20px 8px;
+    min-height: 3.4em;
+}
+
+.VacationCard p {
+    color: var(--muted);
+    padding: 0 20px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 4.5em;
+}
+
+
+.VacationCard .Facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 20px;
+    margin-bottom: 8px;
+}
+
+.VacationCard .Facts span {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+}
+
+.VacationCard button {
+    margin: 16px 20px;
+    align-self: flex-start;
+    padding: 8px 16px;
+    color: #e57373;
+    border: 2px solid #e57373;
+    font-size: 1rem;
+}
+
+.VacationCard button {
+    margin: 16px 20px;
+    align-self: flex-start;
+    padding: 8px 16px;
+    color: #e57373;
+    border-color: #e57373;
+    font-size: 1rem;
+}
+
+.VacationCard button:hover {
+    background: #e57373;
+    color: var(--bg);
+}
+
+.VacationCard .Facts span.Likes {
+    color: #e0a0a0;
+    border-color: #6b4040;
 }
