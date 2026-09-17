@@ -1,11 +1,12 @@
+import logo from "../../../assets/images/logo.jpg";
 import "./header.css";
 
 export function Header() {
     return (
         <div className="Header">
-
-			<p>Header Component</p>
-
+            <img src={logo} alt="MY Vacations" />
+            <h1>MY Vacations</h1>
+            <p>Find your next trip</p>
         </div>
     );
 }

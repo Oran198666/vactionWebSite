@@ -1,11 +1,67 @@
+import { VacationModel } from "../../../models/vacation-model";
 import "./vacation-card.css";
+import { appConfig } from "../../../utils/app-config";
+import { likesService } from "../../../services/likes-service-front";
+import { notify } from "../../../utils/notify";
+import { useSelector } from "react-redux";
+import { Role } from "../../../models/role";
+import { AppState } from "../../../redux/app-state";
+import { useNavigate } from "react-router-dom";
+import { vacationService } from "../../../services/vacations-service-front";
 
-export function VacationCard() {
+type VacationCardProps = {
+    vacation: VacationModel;
+}
+
+export function VacationCard(props: VacationCardProps) {
+    const user = useSelector((state: AppState) => state.user);
+    const isAdmin = user?.roleId === Role.Admin;
+    const navigate = useNavigate();
+
+    async function toggleLike() {
+        try {
+            if (props.vacation.isLiked) {
+                await likesService.removeLike(props.vacation.vacationId!);
+            }
+            else {
+                await likesService.addLike(props.vacation.vacationId!);
+            }
+        } catch (err: any) {
+            notify.error(err);
+        }
+    }
+
+    async function deleteMe() {
+        try {
+            if (!confirm("Are you sure?")) return;
+            await vacationService.deleteVacation(props.vacation.vacationId!);
+            notify.success("Vacation deleted")
+        } catch (err: any) {
+            notify.error(err);
+        }
+    }
+
     return (
         <div className="VacationCard">
+            <img src={appConfig.imageUrl(props.vacation.imageName!)} alt={props.vacation.destination} />
+            <h3>{props.vacation.destination}</h3>
+            <p>{props.vacation.description}</p>
+            <span>{props.vacation.startDate} - {props.vacation.endDate}</span>
+            <span>${(+props.vacation.price).toFixed(2)}</span>
+            <span>{props.vacation.likesCount} likes</span>
 
-			<p>VacationCard Component</p>
+            {!isAdmin && (
+                <button onClick={toggleLike}>
+                    {props.vacation.isLiked ? "♥" : "♡"}
+                </button>
+            )}
 
+            {isAdmin && (
+                <>
+                    <button onClick={() => navigate("/admin/edit/" + props.vacation.vacationId)}>Edit</button>
+                    <button onClick={deleteMe}>Delete</button>
+                </>
+            )}
         </div>
     );
 }
