@@ -23,11 +23,9 @@ body {
 }
 
 h1, h2, h3 {
-    text-transform: uppercase;
     font-family: Georgia, "Times New Roman", serif;
     font-weight: 400;
     letter-spacing: 0.08em;
-    text-transform: uppercase;
     color: var(--text);
 }
 
@@ -84,8 +82,4 @@ h2, h3 {
 
 h3 {
     margin-top: 2em;
-}
-
-.VacationCard img {
-    height: 280px;
 }

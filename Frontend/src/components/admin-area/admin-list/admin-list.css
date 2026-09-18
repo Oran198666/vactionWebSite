@@ -1,3 +1,9 @@
-.AdminList {
-	
+.AdminList > button {
+    margin-bottom: 24px;
+}
+
+.AdminList .Cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
 }

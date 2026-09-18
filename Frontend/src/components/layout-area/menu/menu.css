@@ -6,26 +6,38 @@
     border-bottom: 1px solid var(--border);
 }
 
-.Menu span {
-    color: var(--muted);
-    font-size: 0.8rem;
-    letter-spacing: 0.06em;
-    margin-left: auto;
-}
-
-/* Active route - subtle teal underline: */
+/* Active navigation route */
 .Menu a.active {
-    color: #4db6ac;
-    border-bottom: 1px solid #4db6ac;
+    color: #d4af37;
+    border-bottom: 2px solid #d4af37;
     padding-bottom: 4px;
+    font-weight: 600;
 }
 
-/* Logged-in user name: */
 .Menu span {
     color: #e6c86e;
     text-decoration: underline;
     text-underline-offset: 4px;
     font-size: 0.8rem;
     letter-spacing: 0.06em;
+    text-transform: uppercase;
     margin-left: auto;
 }
+
+/* Logout button consistency */
+.Menu button {
+    background: transparent;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    transition: all 0.2s ease;
+}
+
+.Menu button:hover {
+    background: #d4af37;
+    color: var(--surface);
+}
+

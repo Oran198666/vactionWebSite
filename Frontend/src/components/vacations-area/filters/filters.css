@@ -1,3 +1,32 @@
 .Filters {
-	
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.Filters button {
+    flex: 1;
+    padding: 12px 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+
+.Filters button:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.Filters button.active {
+    background: #a8f0d8;
+    color: #0f172a;
+    border-color: #a8f0d8;
+    font-weight: bold;
 }

@@ -5,6 +5,7 @@ import "./vacations-list.css";
 import { vacationService } from "../../../services/vacations-service-front";
 import { AppState } from "../../../redux/app-state";
 import { useSelector } from "react-redux";
+import { Filters } from "../filters/filters";
 
 
 export function VacationsList() {
@@ -12,6 +13,11 @@ export function VacationsList() {
     const [page, setPage] = useState(1);
     const [filter, setFilter] = useState("");
     const [total, setTotal] = useState(0);
+
+    function handleFilterChange(newFilter:string){
+        setFilter(newFilter);
+        setPage(1)
+    }
 
     useEffect(() => {
         vacationService.getAllVacations(page, filter)
@@ -21,7 +27,7 @@ export function VacationsList() {
 
     return (
         <div className="VacationsList">
-
+            <Filters filter={filter} onFilterChange={handleFilterChange}/>
             {vacations.map(v => <VacationCard key={v.vacationId} vacation={v} />)}
 
         </div>

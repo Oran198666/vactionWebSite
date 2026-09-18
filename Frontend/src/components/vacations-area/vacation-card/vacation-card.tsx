@@ -52,7 +52,10 @@ export function VacationCard(props: VacationCardProps) {
                 <span>${(+props.vacation.price).toFixed(2)}</span>
                 <span className="Likes">{props.vacation.likesCount} likes</span>            </div>
             {!isAdmin && (
-                <button onClick={toggleLike}>
+                <button
+                    className={`like-btn ${props.vacation.isLiked ? "liked" : ""}`}
+                    onClick={toggleLike}
+                >
                     {props.vacation.isLiked ? "♥" : "♡"}
                 </button>
             )}

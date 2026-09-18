@@ -1,3 +1,8 @@
+.McpPage {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
 .McpPage form {
     display: flex;
     gap: 12px;

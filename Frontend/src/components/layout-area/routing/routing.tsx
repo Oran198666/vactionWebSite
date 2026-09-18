@@ -5,7 +5,7 @@ import { Page404 } from "../../pages-area/page404/page404";
 import { Register } from "../../auth-area/register/register";
 import { Login } from "../../auth-area/login/login";
 import { VacationsList } from "../../vacations-area/vacations-list/vacations-list";
-import { AdminList } from "../../admin-area/admin-list/admin-list";
+import { AdminView } from "../../admin-area/admin-list/admin-view";
 import { AddVacation } from "../../admin-area/add-vacation/add-vacation";
 import { EditVacation } from "../../admin-area/edit-vacation/edit-vacation";
 import { Reports } from "../../admin-area/reports/reports";
@@ -29,7 +29,7 @@ export function Routing() {
             <Route path="/mcp" element={<AuthGuard><McpPage /></AuthGuard>} />
 
             {/* Admin only & AuthGuard */}
-            <Route path="/admin" element={<AuthGuard adminOnly><AdminList /></AuthGuard>} />
+            <Route path="/admin" element={<AuthGuard adminOnly><AdminView /></AuthGuard>} />
             <Route path="/admin/add" element={<AuthGuard adminOnly><AddVacation /></AuthGuard>} />
             <Route path="/admin/edit/:vacationId" element={<AuthGuard adminOnly><EditVacation /></AuthGuard>} />
             <Route path="/admin/reports" element={<AuthGuard adminOnly><Reports /></AuthGuard>} />
