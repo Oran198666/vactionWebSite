@@ -6,7 +6,7 @@ import { CredentialsModel } from "../../../models/credentials-model";
 import "./login.css";
 
 export function Login() {
-    const { register, handleSubmit, formState: { errors } } = useForm<CredentialsModel>();
+    const { register, handleSubmit } = useForm<CredentialsModel>();
     const navigate = useNavigate();
 
     async function send(credentials: CredentialsModel) {
@@ -27,25 +27,16 @@ export function Login() {
             <form onSubmit={handleSubmit(send)}>
 
                 <label>Email</label>
-                <input type="email" {...register("email", {
-                    required: "Email is required",
-                    //demands [Anything except a space] + @ + [Anything except a space] + . + [Anything except a space]
-                    pattern: { value: /^\S+@\S+\.\S+$/, message: "Invalid email" },
-                    maxLength: { value: 100, message: "Maximum 100 characters" }
-                })} />
-                <span>{errors.email?.message}</span>
+                <input type="email" {...register("email")} required maxLength={100}
+                    pattern="^\S+@\S+\.\S+$" title="Please enter a valid email address" />
+                {/* demands [Anything except a space] + @ + [Anything except a space] + . + [Anything except a space] */}
 
                 <label>Password</label>
-                <input type="password" {...register("password", {
-                    required: "Password is required",
-                    //both Checks ahead at least one letter (a-z or A-Z)
-                    // at least one digit(?=.*\d), .+	1 or more characters
-                    pattern: { value: /^(?=.*[A-Za-z])(?=.*\d).+$/, message: "Must contain a letter and a digit" },
-                    minLength: { value: 4, message: "Minimum 4 characters" },
-                    maxLength: { value: 100, message: "Maximum 100 characters" }
-                })} />
-                <span>{errors.password?.message}</span>
-
+                <input type="password" {...register("password")} required minLength={4} maxLength={100}
+                    pattern="^(?=.*[A-Za-z])(?=.*\d).+$"
+                    title="Password must contain at least one letter and one digit" />
+                {/* Checks ahead for at least one letter (a-z or A-Z) and at least one digit;
+                 .+ means 1 or more characters */}
                 <button type="submit">Login</button>
             </form>
         </div>

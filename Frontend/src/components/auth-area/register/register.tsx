@@ -6,7 +6,7 @@ import { authServiceFront } from "../../../services/auth-service-front";
 import "./register.css";
 
 export function Register() {
-    const { register, handleSubmit, formState: { errors } } = useForm<UserModel>();
+    const { register, handleSubmit } = useForm<UserModel>();
     const navigate = useNavigate();
 
     async function send(user: UserModel) {
@@ -21,45 +21,26 @@ export function Register() {
 
     return (
         <div className="Register">
-
             <h2>Registration</h2>
 
             <form onSubmit={handleSubmit(send)}>
                 <label>First Name</label>
-                <input type="text" {...register("firstName", {
-                    required: "First name is required",
-                    minLength: { value: 2, message: "Minimum 2 characters" },
-                    maxLength: { value: 40, message: "Maximum 40 characters" }
-                })} />
-                <span>{errors.firstName?.message}</span>
+                <input type="text" {...register("firstName")} required minLength={2} maxLength={40} />
 
                 <label>Last Name</label>
-                <input type="text" {...register("lastName", {
-                    required: "Last name is required",
-                    minLength: { value: 2, message: "Minimum 2 characters" },
-                    maxLength: { value: 40, message: "Maximum 40 characters" }
-                })} />
-                <span>{errors.lastName?.message}</span>
+                <input type="text" {...register("lastName")} required minLength={2} maxLength={40} />
 
                 <label>Email</label>
-                <input type="email" {...register("email", {
-                    required: "Email is required",
-                    //demands [Anything except a space] + @ + [Anything except a space] + . + [Anything except a space]
-                    pattern: { value: /^\S+@\S+\.\S+$/, message: "Invalid email" },
-                    maxLength: { value: 100, message: "Maximum 100 characters" }
-                })} />
-                <span>{errors.email?.message}</span>
+                <input type="email" {...register("email")} required maxLength={100}
+                    pattern="^\S+@\S+\.\S+$" title="Please enter a valid email address" />
+                {/* demands [Anything except a space] + @ + [Anything except a space] + . + [Anything except a space] */}
 
                 <label>Password</label>
-                <input type="password" {...register("password", {
-                    required: "Password is required",
-                    //both Checks ahead at least one letter (a-z or A-Z)
-                    // at least one digit(?=.*\d), .+	1 or more characters
-                    pattern: { value: /^(?=.*[A-Za-z])(?=.*\d).+$/, message: "Must contain a letter and a digit" },
-                    minLength: { value: 4, message: "Minimum 4 characters" },
-                    maxLength: { value: 100, message: "Maximum 100 characters" }
-                })} />
-                <span>{errors.password?.message}</span>
+                <input type="password" {...register("password")} required minLength={4} maxLength={100}
+                    pattern="^(?=.*[A-Za-z])(?=.*\d).+$"
+                    title="Password must contain at least one letter and one digit" />
+                {/* Checks ahead for at least one letter (a-z or A-Z) and at least one digit;
+                 .+ means 1 or more characters */}
 
                 <button type="submit">Register</button>
             </form>
