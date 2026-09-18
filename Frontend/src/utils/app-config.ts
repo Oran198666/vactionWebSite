@@ -12,6 +12,7 @@ class AppConfig {
     public readonly csvUrl = this.baseUrl + "reports/csv";
     public readonly aiUrl = (destination: string) => this.baseUrl + "ai/recommendation/" + encodeURIComponent(destination);
     public readonly mcpUrl = this.baseUrl + "mcp";
+    public readonly pagination = 9;
 }
 
 export const appConfig = new AppConfig();
