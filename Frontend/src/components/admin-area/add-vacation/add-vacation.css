@@ -1,4 +1,6 @@
-.AddVacation {
+/* Container Card */
+.AddVacation,
+.EditVacation {
     max-width: 600px;
     margin: 40px auto;
     padding: 32px;
@@ -8,10 +10,50 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
+/* Form Headers */
+.AddVacation h2,
+.EditVacation h2 {
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-size: 1.8rem;
+    font-family: serif;
+    text-align: center;
+    color: var(--text);
+}
+
+/* Form Layout */
+.AddVacation form,
+.EditVacation form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Field Grouping */
+.AddVacation .form-group,
+.EditVacation .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Labels */
+.AddVacation label,
+.EditVacation label {
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* Inputs, Selects, and Textareas */
 .AddVacation input,
 .AddVacation select,
-.AddVacation textarea {
-    background: #232342; /* Slightly darker shade of indigo for input inset depth */
+.AddVacation textarea,
+.EditVacation input,
+.EditVacation select,
+.EditVacation textarea {
+    background: #232342;
     border: 1px solid #414173;
     border-radius: 4px;
     color: var(--text);
@@ -20,66 +62,48 @@
     font-family: inherit;
     width: 100%;
     box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.AddVacation h2 {
-    margin-top: 0;
-    margin-bottom: 24px;
-    font-size: 1.8rem;
-    font-family: serif; /* Matches your title typography */
-    text-align: center;
-    color: var(--text);
-}
-
-.AddVacation form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.AddVacation .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.AddVacation label {
-    color: var(--muted);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-}
-
+/* Focus States */
 .AddVacation input:focus,
 .AddVacation select:focus,
-.AddVacation textarea:focus {
+.AddVacation textarea:focus,
+.EditVacation input:focus,
+.EditVacation select:focus,
+.EditVacation textarea:focus {
     outline: none;
     border-color: var(--gold);
-    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15); /* Soft focus glow */
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
 }
 
-.AddVacation input[type="file"] {
+/* File Input */
+.AddVacation input[type="file"],
+.EditVacation input[type="file"] {
     padding: 8px 10px;
     cursor: pointer;
 }
 
-/* Custom styling for file input button in Webkit browsers */
-.AddVacation input[type="file"]::file-selector-button {
-    background: var(--surface);
-    border: 1px solid var(--border);
+.AddVacation input[type="file"]::file-selector-button,
+.EditVacation input[type="file"]::file-selector-button {
+    background: #2f2f57;
+    border: 1px solid #414173;
     color: var(--text);
     padding: 6px 12px;
     border-radius: 4px;
     cursor: pointer;
     margin-right: 12px;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.AddVacation input[type="file"]::file-selector-button:hover {
+.AddVacation input[type="file"]::file-selector-button:hover,
+.EditVacation input[type="file"]::file-selector-button:hover {
     border-color: var(--gold);
 }
 
-.AddVacation button[type="submit"] {
+/* Submit Buttons */
+.AddVacation button,
+.EditVacation button {
     margin-top: 16px;
     padding: 14px;
     background: transparent;
@@ -94,7 +118,8 @@
     transition: background 0.2s ease, color 0.2s ease;
 }
 
-.AddVacation button[type="submit"]:hover {
+.AddVacation button:hover,
+.EditVacation button:hover {
     background: var(--gold);
     color: #121212;
 }
