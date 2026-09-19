@@ -6,6 +6,7 @@ import { vacationsService } from "../services/vacations-service";
 import { cyber } from "../utils/cyber";
 import { UploadedFile } from "express-fileupload";
 import { fileSaver } from "uploaded-file-saver";
+import { ClientError } from "../models/client-error";
 
 
 class VacationsController {
@@ -62,6 +63,9 @@ class VacationsController {
     private addVacation = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
         try {
             const vacation = new VacationModel(request.body);
+            if(!request.body.price){
+                throw new ClientError(StatusCode.UnprocessableContent, "Price is required.");
+            }
             vacation.price = +vacation.price;
             vacation.image = request.files?.image as UploadedFile;
             const added = await vacationsService.addVacation(vacation);
@@ -75,6 +79,9 @@ class VacationsController {
     private updateVacation = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
         try {
             const vacation = new VacationModel(request.body);
+                if(!request.body.price){
+                    throw new ClientError(StatusCode.UnprocessableContent, "Price is required.");
+            }
             vacation.vacationId = +(request.params.vacationId as string);
             vacation.price = +vacation.price;
             vacation.image = request.files?.image as UploadedFile;

@@ -11,14 +11,22 @@ export function AddVacation() {
     const { register, handleSubmit } = useForm<VacationModel>();
     const navigate = useNavigate();
     const [date, setDate] = useState("");
-    const today = new Date().toISOString().slice(0, 10);
+
+    const getMinEndDate = () => {
+        if (!date) return "";
+        const [year, month, day] = date.split("-").map(Number);
+        const nextDay = new Date(year, month - 1, day + 1);
+
+        const yyyy = nextDay.getFullYear();
+        const mm = String(nextDay.getMonth() + 1).padStart(2, "0");
+        const dd = String(nextDay.getDate()).padStart(2, "0");
+
+        return `${yyyy}-${mm}-${dd}`;
+    };
+
 
     async function send(vacation: VacationModel) {
         try {
-            // Extract the actual File object from the FileList
-            if (vacation.image) {
-                vacation.image = (vacation.image as unknown as FileList)[0];
-            }
             await vacationService.addVacation(vacation);
             notify.success("Vacation has been added.");
             navigate("/admin");
@@ -35,7 +43,7 @@ export function AddVacation() {
             <form onSubmit={handleSubmit(send)}>
                 <div className="form-group">
                     <label>Destination</label>
-                    <input  type="text" {...register("destination")} required minLength={2} maxLength={100} />
+                    <input type="text" {...register("destination")} required minLength={2} maxLength={100} />
                 </div>
 
                 <div className="form-group">
@@ -53,12 +61,13 @@ export function AddVacation() {
 
                 <div className="form-group">
                     <label>Start Date</label>
-                    <input type="date" {...register("startDate")} onChange={e => setDate(e.target.value)} required min={today} />
+                    <input type="date" {...register("startDate", { onChange: e => setDate(e.target.value) })}
+                        required min={new Date().toISOString().slice(0, 10)} />
                 </div>
 
                 <div className="form-group">
                     <label>End Date</label>
-                    <input type="date" {...register("endDate")} min={date || today} />
+                    <input type="date" {...register("endDate")} required min={getMinEndDate()} />
                 </div>
 
                 <div className="form-group">
