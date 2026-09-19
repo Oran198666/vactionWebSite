@@ -1,3 +1,100 @@
 .AddVacation {
-	
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 32px;
+    background: #2f2f57;
+    border: 1px solid #414173;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.AddVacation input,
+.AddVacation select,
+.AddVacation textarea {
+    background: #232342; /* Slightly darker shade of indigo for input inset depth */
+    border: 1px solid #414173;
+    border-radius: 4px;
+    color: var(--text);
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.AddVacation h2 {
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-size: 1.8rem;
+    font-family: serif; /* Matches your title typography */
+    text-align: center;
+    color: var(--text);
+}
+
+.AddVacation form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.AddVacation .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.AddVacation label {
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.AddVacation input:focus,
+.AddVacation select:focus,
+.AddVacation textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15); /* Soft focus glow */
+}
+
+.AddVacation input[type="file"] {
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+/* Custom styling for file input button in Webkit browsers */
+.AddVacation input[type="file"]::file-selector-button {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 12px;
+    transition: background 0.2s ease;
+}
+
+.AddVacation input[type="file"]::file-selector-button:hover {
+    border-color: var(--gold);
+}
+
+.AddVacation button[type="submit"] {
+    margin-top: 16px;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.AddVacation button[type="submit"]:hover {
+    background: var(--gold);
+    color: #121212;
 }

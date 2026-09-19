@@ -40,6 +40,7 @@ export function McpPage() {
 
             {loading && <Spinner />}
 
-            {answer && <div className="Answer"><ReactMarkdown>{answer}</ReactMarkdown></div>}        </div>
+            {answer && <div className="Answer"><ReactMarkdown>{answer}</ReactMarkdown></div>}</div>
+
     );
 }

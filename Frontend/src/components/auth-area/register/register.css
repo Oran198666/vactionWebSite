@@ -1,13 +1,32 @@
 .Register {
     max-width: 440px;
     margin: 64px auto;
+    padding: 32px;
+    background: #2f2f57;
+    border: 1px solid #414173;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.Register h2 {
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-size: 1.8rem;
+    font-family: serif;
+    text-align: center;
+    color: var(--text);
 }
 
 .Register form {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    margin-top: 32px;
+    gap: 16px;
+}
+
+.Register .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .Register label {
@@ -15,30 +34,49 @@
     font-size: 0.75rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-top: 16px;
 }
 
 .Register input {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: #232342;
+    border: 1px solid #414173;
+    border-radius: 4px;
     color: var(--text);
     padding: 12px 14px;
     font-size: 0.95rem;
     font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .Register input:focus {
     outline: none;
     border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
 }
 
 .Register span {
-    color: #d9534f;
+    color: #ff6b6b;
     font-size: 0.75rem;
     min-height: 1.2em;
 }
 
-.Register button {
-    margin-top: 28px;
+.Register button[type="submit"] {
+    margin-top: 16px;
     padding: 14px;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.Register button[type="submit"]:hover {
+    background: var(--gold);
+    color: #121212;
 }
