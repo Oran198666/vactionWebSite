@@ -1,3 +1,103 @@
+/* Container Layout */
 .Reports {
-	
+    width: 90%;
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #22252a;
+    border: 1px solid #33373e;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Section */
+.report-header {
+    margin-bottom: 25px;
+}
+
+.report-header h2 {
+    font-family: 'Georgia', serif;
+    color: #d4af37;
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.report-header .subtitle {
+    color: #a0a5b1;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* Chart Container & Overflow Clearance */
+.report-chart-container {
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+/* Grid & Bar Colors */
+.report-chart-container .recharts-cartesian-grid line {
+    stroke: #33373e;
+    stroke-dasharray: 3 3;
+}
+
+.report-chart-container .recharts-bar-rectangle path {
+    fill: #8884d8;
+}
+
+.report-chart-container .recharts-cartesian-axis-tick-value {
+    fill: #a0a5b1;
+    font-size: 12px;
+}
+
+/* Tooltip & Legend CSS Styling */
+.report-chart-container .recharts-default-tooltip {
+    background-color: #1e2125 !important;
+    border-color: #d4af37 !important;
+    border-radius: 6px !important;
+    color: #fff !important;
+}
+
+.report-chart-container .recharts-legend-wrapper {
+    padding-top: 15px;
+}
+
+.report-chart-container .recharts-legend-item-text {
+    color: #a0a5b1 !important;
+    font-size: 14px;
+}
+
+/* Section Divider */
+.report-divider {
+    border: none;
+    border-top: 1px solid #33373e;
+    margin: 40px 0 25px 0;
+    width: 100%;
+}
+
+/* Actions Section */
+.report-actions {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.report-actions button {
+    background-color: transparent;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+}
+
+.report-actions button:hover {
+    background-color: #d4af37;
+    color: #1e2125;
 }

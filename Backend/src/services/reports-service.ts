@@ -6,7 +6,7 @@ class ReportsService {
         const sql = `SELECT v.destination, COUNT(l.userId) AS likes
                  FROM vacations AS v
                  LEFT JOIN likes AS l ON l.vacationId = v.vacationId
-                 GROUP BY v.vacationId
+                 GROUP BY v.vacationId HAVING likes > 0
                  ORDER BY likes DESC`;
         const report = await dal.execute(sql) as { destination: string, likes: number }[];
         return report;
