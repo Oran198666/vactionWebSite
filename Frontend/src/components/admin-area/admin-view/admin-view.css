@@ -1,0 +1,55 @@
+.AdminList > button {
+    margin-bottom: 24px;
+}
+
+.AdminList .Cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.Pagination {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 0;
+    justify-content: center;
+}
+
+.Pagination li {
+    display: inline-block;
+}
+
+.Pagination li a {
+    display: block;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.Pagination li.active a {
+    background: var(--gold);
+    color: var(--bg);
+    border-color: var(--gold);
+}
+
+.Pagination li.disabled a {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.PaginationBar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.PaginationBar span {
+    color: var(--text);
+    font-size: 0.9rem;
+}

@@ -5,7 +5,7 @@ import { Page404 } from "../../pages-area/page404/page404";
 import { Register } from "../../auth-area/register/register";
 import { Login } from "../../auth-area/login/login";
 import { VacationsList } from "../../vacations-area/vacations-list/vacations-list";
-import { AdminView } from "../../admin-area/admin-list/admin-view";
+import { AdminView } from "../../admin-area/admin-view/admin-view";
 import { AddVacation } from "../../admin-area/add-vacation/add-vacation";
 import { EditVacation } from "../../admin-area/edit-vacation/edit-vacation";
 import { Reports } from "../../admin-area/reports/reports";

@@ -3,3 +3,52 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
 }
+
+/* Make PaginationBar span across all grid columns if it's placed inside .VacationsList */
+.PaginationBar {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.Pagination {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+    margin-top: 8px; /* Reduced from 24px since it's already in PaginationBar */
+    padding: 0;
+    justify-content: center;
+}
+
+.Pagination li {
+    display: inline-block;
+}
+
+.Pagination li a {
+    display: block;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.Pagination li.active a {
+    background: var(--gold);
+    color: var(--bg);
+    border-color: var(--gold);
+}
+
+.Pagination li.disabled a {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none; /* Prevents clicks on disabled buttons like PREVIOUS */
+}
+
+.PaginationBar span {
+    color: var(--text);
+    font-size: 0.9rem;
+}

@@ -93,6 +93,14 @@ class VacationsService {
 
     public async addVacation(vacation: VacationModel): Promise<VacationModel> {
         vacation.validate();
+        //past-date
+        if(vacation.startDate <= new Date().toISOString().slice(0,10)){
+            throw new ClientError(StatusCode.UnprocessableContent, "Start date must be after today")
+        }
+        //same-day
+        if(vacation.endDate <= vacation.startDate){
+            throw new ClientError(StatusCode.UnprocessableContent,"End date must be after start date(at least a day gap)")
+        }
         vacation.imageName = await fileSaver.add(vacation.image!);
         const sql = "INSERT INTO vacations (destination, continent, description, startDate, endDate, price, imageName) VALUES (?,?,?,?,?,?,?)";
         const info = await dal.execute(sql, [vacation.destination, vacation.continent, vacation.description, vacation.startDate, vacation.endDate, vacation.price, vacation.imageName]) as OkPacketParams;
@@ -102,6 +110,9 @@ class VacationsService {
 
     public async updateVacation(vacation: VacationModel): Promise<VacationModel> {
         vacation.validate();
+        if(vacation.endDate <= vacation.startDate){
+            throw new ClientError(StatusCode.UnprocessableContent, "End date must be after start date")
+        }
         if (vacation.image) {
             const oldName = (await this.getOneVacation(vacation.vacationId!)).imageName;
             vacation.imageName = await fileSaver.update(oldName!, vacation.image);
