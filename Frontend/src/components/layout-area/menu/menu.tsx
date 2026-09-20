@@ -39,7 +39,7 @@ export function Menu() {
 
             {/*  admin branch */}
             {user?.roleId === Role.Admin && <>
-                <NavLink to="/admin">Manage vacations</NavLink>
+                <NavLink to="/admin" end>Manage vacations</NavLink>
                 <NavLink to="/admin/add">Add vacation</NavLink>
                 <NavLink to="/admin/reports">Reports</NavLink>
             </>}
