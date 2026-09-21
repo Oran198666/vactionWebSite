@@ -23,14 +23,11 @@ class App {
         fileSaver.config(path.join(__dirname, "1-assets", "images"))
         await mcpClient.init();
 
-        // Create our server object:
+        // Create our server object & System middleware
         const server = express();
-
-        // System middleware:
+        server.use(cors());
         securityMiddleware.headerProtection(server); // Prevent header attacks.
         securityMiddleware.registerRateLimit(server); // Prevent DoS attacks.
-
-        server.use(cors());
         server.use(express.json());
         server.use(fileUpload());
 
@@ -56,6 +53,8 @@ class App {
 }
 
 const app = new App();
-app.start();
+//log errors on startup
+app.start().catch(err => console.log(err));
+
 
 // taskkill /F /IM node.exe

@@ -16,21 +16,14 @@ class AuthServiceFront {
         // Get token from local storage:
         const token = localStorage.getItem("token");
 
+        //in case of corrupted token, prevent app crash
         if (token) {
-
-            // Unpack the token into its payload: the user object and the expiry timestamp.
-            const payload = jwtDecode<{ user: UserModel, exp: number }>(token);
-
-            // exp is in seconds, Date.now() is in milliseconds - hence the * 1000.
-            if (payload.exp * 1000 < Date.now()) {
-
-                // Expired: drop it rather than showing a logged-in user whose requests would 401.
-                localStorage.removeItem("token");
+            try {
+                const payload = jwtDecode<{ user: UserModel, exp: number }>(token);
+                if (payload.exp * 1000 < Date.now()) localStorage.removeItem("token");
+                else store.dispatch(authSlice.actions.initUser(payload.user));
             }
-            else {
-                // Still valid: put the user back into global state.
-                store.dispatch(authSlice.actions.initUser(payload.user));
-            }
+            catch { localStorage.removeItem("token"); }
         }
     }
 
@@ -64,7 +57,7 @@ class AuthServiceFront {
         const token = response.data;
 
         // Extract user:
-        const dbUser = jwtDecode<{user:UserModel}>(token).user;
+        const dbUser = jwtDecode<{ user: UserModel }>(token).user;
 
         // Send user to global state:
         const action = authSlice.actions.initUser(dbUser);

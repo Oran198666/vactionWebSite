@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { Continent } from "../../../models/continent";
+import { appConfig } from "../../../utils/app-config";
 import { VacationModel } from "../../../models/vacation-model";
 import { vacationService } from "../../../services/vacations-service-front";
 import { notify } from "../../../utils/notify";
@@ -99,6 +100,7 @@ export function EditVacation() {
 
                 <div className="form-group">
                     <label>Image</label>
+                    <img src={appConfig.imageUrl(watch("imageName")!)} alt="Current" style={{ maxWidth: "100%" }} />
                     <input type="file" accept="image/*" {...register("image")} />
                 </div>
 

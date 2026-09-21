@@ -25,10 +25,10 @@ export function Register() {
 
             <form onSubmit={handleSubmit(send)}>
                 <label>First Name</label>
-                <input type="text" {...register("firstName")} required minLength={2} maxLength={40} />
+                <input type="text" {...register("firstName")} required minLength={2} maxLength={50} />
 
                 <label>Last Name</label>
-                <input type="text" {...register("lastName")} required minLength={2} maxLength={40} />
+                <input type="text" {...register("lastName")} required minLength={2} maxLength={50} />
 
                 <label>Email</label>
                 <input type="email" {...register("email")} required maxLength={100}

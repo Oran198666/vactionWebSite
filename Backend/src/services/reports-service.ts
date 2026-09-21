@@ -14,7 +14,7 @@ class ReportsService {
 
     public getCsvReport = async (): Promise<string> => {
         const report = await this.getLikesReport();
-        const header = "destination,likes";
+        const header = "Destination,Likes";
         const rows = report.map(row => `"${row.destination}",${row.likes}`);
         const total = report.reduce((sum, row) => sum + row.likes, 0);
         return [header, ...rows, `"TOTAL",${total}`].join("\n");

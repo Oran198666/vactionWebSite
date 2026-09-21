@@ -2,8 +2,8 @@ import { Continent } from "./continent"
 
 export type VacationModel = {
     vacationId?: number
-    destination: Continent
-    continent: string
+    destination: string
+    continent: Continent
     description: string
     startDate: string
     endDate: string

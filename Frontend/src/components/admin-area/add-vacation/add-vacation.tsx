@@ -24,6 +24,10 @@ export function AddVacation() {
         return `${yyyy}-${mm}-${dd}`;
     };
 
+    const tomorrow  = new Date();
+    tomorrow.setDate(tomorrow.getDate()+1);
+    const minStartDate = tomorrow.toLocaleDateString("en-CA");
+
 
     async function send(vacation: VacationModel) {
         try {
@@ -62,7 +66,7 @@ export function AddVacation() {
                 <div className="form-group">
                     <label>Start Date</label>
                     <input type="date" {...register("startDate", { onChange: e => setDate(e.target.value) })}
-                        required min={new Date().toISOString().slice(0, 10)} />
+                        required min={minStartDate} />
                 </div>
 
                 <div className="form-group">

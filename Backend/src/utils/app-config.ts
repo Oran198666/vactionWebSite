@@ -13,7 +13,6 @@ class AppConfig {
     public readonly mysqlDatabase = process.env.MYSQL_DATABASE!;
     public readonly jwtSecret = process.env.JWT_SECRET!;
     public readonly hashSalt = process.env.HASH_SALT!;
-    public readonly recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY!;
     public readonly openaiApiKey = process.env.OPENAI_API_KEY!;
     public readonly openaiModel = process.env.OPENAI_MODEL!;
     public readonly port = process.env.PORT!;

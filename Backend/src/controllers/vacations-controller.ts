@@ -27,7 +27,8 @@ class VacationsController {
             const user = cyber.getUserFromToken(token!);
 
             //Query params are strings - page defaults to 1, filter to none:
-            const page = +(request.query.page as string) || 1;
+            //block negative pages
+            const page = Math.max(1, +(request.query.page as string) || 1);
             const filter = (request.query.filter as string) || "";
 
             const result = await vacationsService.getAllVacations(user.userId!, page, filter);

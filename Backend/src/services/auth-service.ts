@@ -10,13 +10,13 @@ import { Role, StatusCode } from "../models/enums";
 class AuthService {
     public async register(user: UserModel): Promise<string> {
 
+        //email format normalizer
+        user.email = user.email.trim().toLowerCase();
+
         user.validate();
 
         //registering a user = default value
         user.roleId = Role.User;
-
-        //email format normalizer
-        user.email = user.email.trim().toLowerCase();
 
         // If email taken:
         if (await this.isEmailTaken(user.email)) {
@@ -49,11 +49,11 @@ class AuthService {
 
     public async login(credentials: CredentialsModel): Promise<string> {
 
-        //validate credentials
-        credentials.validate();
-
         //email format normalizer
         credentials.email = credentials.email.trim().toLowerCase();
+
+        //validate credentials
+        credentials.validate();
 
         //compare the email to password against the hash
         const sql = "select * from users where email = ? and password = ?";

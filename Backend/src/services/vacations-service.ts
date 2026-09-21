@@ -93,6 +93,8 @@ class VacationsService {
 
     public async addVacation(vacation: VacationModel): Promise<VacationModel> {
         vacation.validate();
+        //must add img
+        if(!vacation.image) throw new ClientError(StatusCode.UnprocessableContent, "Please add an image")
         //past-date
         if(vacation.startDate <= new Date().toISOString().slice(0,10)){
             throw new ClientError(StatusCode.UnprocessableContent, "Start date must be after today")
@@ -101,10 +103,12 @@ class VacationsService {
         if(vacation.endDate <= vacation.startDate){
             throw new ClientError(StatusCode.UnprocessableContent,"End date must be after start date(at least a day gap)")
         }
-        vacation.imageName = await fileSaver.add(vacation.image!);
+        vacation.imageName = await fileSaver.add(vacation.image);
         const sql = "INSERT INTO vacations (destination, continent, description, startDate, endDate, price, imageName) VALUES (?,?,?,?,?,?,?)";
         const info = await dal.execute(sql, [vacation.destination, vacation.continent, vacation.description, vacation.startDate, vacation.endDate, vacation.price, vacation.imageName]) as OkPacketParams;
         vacation.vacationId = info.insertId;
+        /// disable huge array of numbers in the response
+        delete vacation.image;
         return vacation;
     }
 
@@ -124,14 +128,16 @@ class VacationsService {
         if (info.affectedRows === 0) {
             throw new ClientError(StatusCode.NotFound, `Vacation ${vacation.vacationId} not found.`);
         }
+        /// disable huge array of numbers in the response
+        delete vacation.image;
         return vacation;
     }
 
     public async deleteVacation(vacationId: number): Promise<void> {
         const imageName = (await this.getOneVacation(vacationId)).imageName;
-        await fileSaver.delete(imageName!);
         const sql = "DELETE FROM vacations where vacationId = ?";
         await dal.execute(sql, [vacationId]) as OkPacketParams;
+        await fileSaver.delete(imageName!);
     }
 }
 

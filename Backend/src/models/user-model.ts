@@ -5,7 +5,7 @@ import { Role, StatusCode } from "./enums";
 // user Schema:
 const UserSchema = z.object({
     userId: z.number().int().positive().optional(),
-    firstName: z.string().min(2).max(30),
+    firstName: z.string().min(2).max(50),
     lastName: z.string().min(2).max(50),
     email: z.email().max(100),
     password: z.string().min(4).max(100),

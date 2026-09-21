@@ -1,12 +1,9 @@
 import { securityMiddleware } from "../middleware/security-middleware";
 import express, { Request, Response, Router, NextFunction } from "express";
-import { StatusCode } from "../models/enums";
-import { VacationModel } from "../models/vacation-model";
-import { vacationsService } from "../services/vacations-service";
 import { cyber } from "../utils/cyber";
-
-import { fileSaver } from "uploaded-file-saver";
 import { likesService } from "../services/likes-service";
+import { Role, StatusCode } from "../models/enums";
+import { ClientError } from "../models/client-error";
 
 
 class LikesController {
@@ -21,6 +18,7 @@ class LikesController {
         try {
             const token = request.headers.authorization?.substring(7);
             const user = cyber.getUserFromToken(token!);
+            if(user.roleId === Role.Admin) throw new ClientError(StatusCode.Forbidden,"leave the likes for the users");
             const vacationId = +(request.params.vacationId as string);
             await likesService.addLike(user.userId!, vacationId);
             response.sendStatus(StatusCode.NoContent);
@@ -33,6 +31,7 @@ class LikesController {
         try {
             const token = request.headers.authorization?.substring(7);
             const user = cyber.getUserFromToken(token!);
+            if(user.roleId === Role.Admin) throw new ClientError(StatusCode.Forbidden,"leave the likes for the users");
             const vacationId = +(request.params.vacationId as string);
             await likesService.removeLike(user.userId!, vacationId);
             response.sendStatus(StatusCode.NoContent);

@@ -16,7 +16,7 @@ class FormUtil {
             if (value === undefined || value === null) continue;
 
             // A file input gives a FileList; the server expects the single file inside it
-            if (value instanceof FileList) formData.append(key, value[0]);
+            if (value instanceof FileList) {if(value.length) formData.append(key, value[0])}
 
             // FormData carries strings only - this is why the backend does +vacation.price
             else formData.append(key, String(value));
