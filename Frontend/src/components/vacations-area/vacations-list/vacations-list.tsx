@@ -7,6 +7,8 @@ import { vacationService } from "../../../services/vacations-service-front";
 import { AppState } from "../../../redux/app-state";
 import { useSelector } from "react-redux";
 import { Filters } from "../filters/filters";
+import { appConfig } from "../../../utils/app-config";
+
 
 const ReactPaginate = (ReactPaginateModule as any).default || ReactPaginateModule;
 
@@ -15,17 +17,26 @@ export function VacationsList() {
     const [page, setPage] = useState(1);
     const [filter, setFilter] = useState("");
     const [total, setTotal] = useState(0);
+    const [reload, setReload] = useState(0);
 
     function handleFilterChange(newFilter: string) {
         setFilter(newFilter);
         setPage(1)
     }
 
+    function likeHandleChange(){
+        if(filter === "liked") setReload(r =>r+1);
+    }
+
     useEffect(() => {
         vacationService.getAllVacations(page, filter)
-            .then(data => setTotal(data.total))
+            .then(data => {
+                setTotal(data.total);
+                // Last card on this page was unliked - step back a page
+                if (data.vacations.length === 0 && page > 1) setPage(page - 1);
+            })
             .catch(err => notify.error(err));
-    }, [page, filter]);
+    }, [page, filter, reload]);
 
 
     return (
@@ -33,9 +44,9 @@ export function VacationsList() {
             <Filters filter={filter} onFilterChange={handleFilterChange} />
 
             <div className="PaginationBar">
-                <span>{total} vacations, page {page} of {Math.ceil(total / 9)}</span>
+                <span>{total} vacations, page {page} of {Math.ceil(total / appConfig.pagination)}</span>
                 <ReactPaginate
-                    pageCount={Math.ceil(total / 9)}
+                    pageCount={Math.ceil(total / appConfig.pagination)}
                     forcePage={page - 1}
                     onPageChange={(selected: { selected: number }) => setPage(selected.selected + 1)}
                     containerClassName="Pagination"
@@ -48,8 +59,8 @@ export function VacationsList() {
                     nextLabel="Next"
                 />
             </div>
-
-            {vacations.map(v => <VacationCard key={v.vacationId} vacation={v} />)}
+            {total === 0 && <p>No results were found</p>}
+            {vacations.map(v => <VacationCard key={v.vacationId} vacation={v} onLikeChange={likeHandleChange} />)}
         </div>
     );
 }

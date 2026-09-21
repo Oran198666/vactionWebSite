@@ -17,7 +17,7 @@ class McpService {
             }
         }));
         const messages: any[] = [
-            { role: "system", content: "You answer questions about a vacations database. Use the tools to get real data - never invent numbers. For a count or an average, answer in one sentence. For a list, use a markdown bullet list with one vacation per line, sorted by start date, in the form: Destination - start date to end date - price. No table." },
+            { role: "system", content: `Today is ${new Date().toLocaleDateString("en-CA")}. You answer questions about a vacations database. Use the tools to get real data - never invent numbers. For a count or an average, answer in one sentence. For a list, use a markdown bullet list with one vacation per line, sorted by start date, in the form: Destination - start date to end date - price$. All prices are in US dollars. Write all dates as DD.MM.YYYY. No table.` },
             { role: "user", content: question }
         ];
 

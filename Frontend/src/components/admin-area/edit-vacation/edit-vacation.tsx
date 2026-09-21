@@ -105,6 +105,7 @@ export function EditVacation() {
                 </div>
 
                 <button type="submit">Update Vacation</button>
+                <button type="button" onClick={() => navigate("/admin")}>Cancel</button>
             </form>
         </div>
     );

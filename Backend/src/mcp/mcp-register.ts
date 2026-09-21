@@ -9,14 +9,15 @@ class McpRegister {
         const config = {
             description: "Vacations running right now: today is between the start and end dates."
         };
-        mcpServer.registerTool(uniqueName,config, mcpTools.getAllActiveVacationsTool)
+        mcpServer.registerTool(uniqueName, config, mcpTools.getAllActiveVacationsTool)
     }
 
     public registerGetAveragePriceTool(mcpServer: McpServer): void {
         const uniqueName = "get_average_price";
         const config = {
-            description: "The average price across all vacations in the database, returned as a single number. Use this for any question about average, mean or typical price."        };
-        mcpServer.registerTool(uniqueName,config, mcpTools.getAveragePriceTool);
+            description: "The average price across all vacations in the database, returned as a single number. Use this for any question about average, mean or typical price."
+        };
+        mcpServer.registerTool(uniqueName, config, mcpTools.getAveragePriceTool);
     }
 
     public registerGetAllVacationsTool(mcpServer: McpServer): void {
@@ -24,16 +25,16 @@ class McpRegister {
         const config = {
             description: "Every vacation with destination, continent, description, dates and price. Use for anything the other tools do not cover."
         };
-        mcpServer.registerTool(uniqueName,config, mcpTools.getAllVacationsTool);
+        mcpServer.registerTool(uniqueName, config, mcpTools.getAllVacationsTool);
     }
 
     public registerGetFutureVacationsByRegionTool(mcpServer: McpServer): void {
         const uniqueName = "get_future_vacations_by_region";
         const config = {
-            description: "Vacations that have not started yet, filtered by continent. Region must be Europe, Asia, Africa or North America.",
+            description: "Vacations that have not started yet, filtered by continent. Region must be one of: Europe, Asia, Africa, North America, South America, Oceania, Antarctica. If the user says 'America', call this tool for both North America and South America.",
             inputSchema: { region: z.string() }
         };
-        mcpServer.registerTool(uniqueName,config, mcpTools.getFutureVacationsByRegionTool)
+        mcpServer.registerTool(uniqueName, config, mcpTools.getFutureVacationsByRegionTool);
     }
 
 

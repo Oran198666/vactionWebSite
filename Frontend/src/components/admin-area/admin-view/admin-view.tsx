@@ -8,6 +8,7 @@ import { notify } from "../../../utils/notify";
 import { useNavigate } from "react-router-dom";
 import { VacationCard } from "../../vacations-area/vacation-card/vacation-card";
 import { Spinner } from "../../shared-area/spinner/spinner";
+import { appConfig } from "../../../utils/app-config";
 
 const ReactPaginate = (ReactPaginateModule as any).default || ReactPaginateModule;
 
@@ -35,11 +36,11 @@ export function AdminView() {
             {loading && <Spinner />}
 
             <div className="PaginationBar">
-                <span>{total} vacations, page {page} of {Math.ceil(total / 9)}</span>
+                <span>{total} vacations, page {page} of {Math.ceil(total / appConfig.pagination)}</span>
                 <ReactPaginate
-                    pageCount={Math.ceil(total / 9)}
+                    pageCount={Math.ceil(total / appConfig.pagination)}
                     forcePage={page - 1}
-                    onPageChange={(selected: { selected: number }) => setPage(selected.selected + 1)}
+                    onPageChange={(selected: { selected: number }) => { setLoading(true); setPage(selected.selected + 1); }}
                     containerClassName="Pagination"
                     pageLinkClassName="page-link"
                     previousLinkClassName="page-link"

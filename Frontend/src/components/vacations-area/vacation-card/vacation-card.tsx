@@ -11,6 +11,7 @@ import { vacationService } from "../../../services/vacations-service-front";
 
 type VacationCardProps = {
     vacation: VacationModel;
+    onLikeChange?: () => void;
 }
 
 export function VacationCard(props: VacationCardProps) {
@@ -26,6 +27,7 @@ export function VacationCard(props: VacationCardProps) {
             else {
                 await likesService.addLike(props.vacation.vacationId!);
             }
+            props.onLikeChange?.();
         } catch (err: any) {
             notify.error(err);
         }
@@ -41,15 +43,17 @@ export function VacationCard(props: VacationCardProps) {
         }
     }
 
+    const formatDate = (date: string) => new Date(date).toLocaleDateString("he-IL", { day: "2-digit", month: "2-digit", year: "numeric" });
+
     return (
         <div className="VacationCard">
             <img src={appConfig.imageUrl(props.vacation.imageName!)} alt={props.vacation.destination} />
             <h3>{props.vacation.destination}</h3>
             <p>{props.vacation.description}</p>
-            
+
             <div className="Facts">
 
-                <span>{props.vacation.startDate} - {props.vacation.endDate}</span>
+                <span>{formatDate(props.vacation.startDate)} - {formatDate(props.vacation.endDate)}</span>
                 <span>${(+props.vacation.price).toFixed(2)}</span>
                 <span className="Likes">{props.vacation.likesCount} likes</span>
             </div>

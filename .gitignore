@@ -27,3 +27,4 @@ dist/
 .env
 Backend/src/1-assets/images/*
 !Backend/src/1-assets/images/.gitkeep
+Backend/src/playground.ts

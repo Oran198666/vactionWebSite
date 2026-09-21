@@ -11,6 +11,7 @@ class Dal {
         database: appConfig.mysqlDatabase,
         port: appConfig.mysqlPort,
         dateStrings: true,
+        decimalNumbers: true,
     };
 
     // Connection object:
