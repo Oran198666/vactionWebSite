@@ -12,6 +12,7 @@ import { vacationService } from "../../../services/vacations-service-front";
 type VacationCardProps = {
     vacation: VacationModel;
     onLikeChange?: () => void;
+    onDelete?: () => void;
 }
 
 export function VacationCard(props: VacationCardProps) {
@@ -37,7 +38,8 @@ export function VacationCard(props: VacationCardProps) {
         try {
             if (!confirm("Are you sure?")) return;
             await vacationService.deleteVacation(props.vacation.vacationId!);
-            notify.success("Vacation deleted")
+            notify.success("Vacation deleted");
+            props.onDelete?.();
         } catch (err: any) {
             notify.error(err);
         }
@@ -48,7 +50,7 @@ export function VacationCard(props: VacationCardProps) {
     return (
         <div className="VacationCard">
             <img src={appConfig.imageUrl(props.vacation.imageName!)} alt={props.vacation.destination} />
-            <h3>{props.vacation.destination}</h3>
+            <h3 title={props.vacation.destination}>{props.vacation.destination}</h3>
             <p>{props.vacation.description}</p>
 
             <div className="Facts">
@@ -69,8 +71,8 @@ export function VacationCard(props: VacationCardProps) {
 
             {isAdmin && (
                 <>
-                    <button onClick={() => navigate("/admin/edit/" + props.vacation.vacationId)}>Edit</button>
-                    <button onClick={deleteMe}>Delete</button>
+                    <button className="edit-btn" onClick={() => navigate("/admin/edit/" + props.vacation.vacationId)}>Edit</button>
+                    <button className="delete-btn" onClick={deleteMe}>Delete</button>
                 </>
             )}
         </div>

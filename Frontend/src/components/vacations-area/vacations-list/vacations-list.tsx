@@ -60,7 +60,7 @@ export function VacationsList() {
                 />
             </div>
             {total === 0 && <p>No results were found</p>}
-            {vacations.map(v => <VacationCard key={v.vacationId} vacation={v} onLikeChange={likeHandleChange} />)}
+            {vacations.map(v => <VacationCard key={v.vacationId} vacation={v} onLikeChange={likeHandleChange} onDelete={() => setReload(r => r + 1)} />)}
         </div>
     );
 }

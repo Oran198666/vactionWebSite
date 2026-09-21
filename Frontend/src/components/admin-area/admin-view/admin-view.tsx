@@ -18,14 +18,20 @@ export function AdminView() {
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState<boolean>(true);
+    const [reload, setReload] = useState(0);
     const navigate = useNavigate();
 
+    //reload new page results
     useEffect(() => {
         vacationService.getAllVacations(page, "")
-            .then(data => setTotal(data.total))
+            .then(data => {
+                setTotal(data.total);
+                // Last card on this page was deleted - step back a page
+                if (data.vacations.length === 0 && page > 1) setPage(page - 1);
+            })
             .catch(err => notify.error(err))
             .finally(() => setLoading(false))
-    }, [page])
+    }, [page, reload])
 
 
     return (
@@ -53,7 +59,7 @@ export function AdminView() {
             </div>
 
             <div className="Cards">
-                {vacations.map(v => <VacationCard key={v.vacationId} vacation={v} />)}
+                {vacations.map(v => <VacationCard key={v.vacationId} vacation={v} onDelete={() => setReload(r => r + 1)} />)}
             </div>
         </div>
     );

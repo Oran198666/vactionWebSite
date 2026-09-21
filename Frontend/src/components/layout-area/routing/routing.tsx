@@ -19,9 +19,9 @@ export function Routing() {
 
             {/* Public: */}
             <Route path="/home" element={<Home />} />
-            <Route path="/about" element={<About />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/about" element={<About />} />
 
             {/* Registered users & AuthGuard  */}
             <Route path="/vacations" element={<AuthGuard><VacationsList /></AuthGuard>} />
