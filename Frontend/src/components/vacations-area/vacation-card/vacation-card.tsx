@@ -46,10 +46,12 @@ export function VacationCard(props: VacationCardProps) {
     }
 
     const formatDate = (date: string) => new Date(date).toLocaleDateString("he-IL", { day: "2-digit", month: "2-digit", year: "numeric" });
+    const isEnded = props.vacation.endDate < new Date().toLocaleDateString("en-CA");
 
     return (
         <div className="VacationCard">
             <img src={appConfig.imageUrl(props.vacation.imageName!)} alt={props.vacation.destination} />
+            {isEnded && <span className="EndedBadge">Ended</span>}
             <h3 title={props.vacation.destination}>{props.vacation.destination}</h3>
             <p>{props.vacation.description}</p>
 
