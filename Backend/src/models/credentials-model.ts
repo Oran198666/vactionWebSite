@@ -4,8 +4,8 @@ import { StatusCode } from "./enums";
 
 // Credentials Schema:
 const CredentialsSchema = z.object({
-    email: z.email().max(100),
-    password: z.string().min(4).max(100)
+    email: z.email("Please enter a valid email").max(100, "Email is too long"),
+    password: z.string().min(4, "Password must be at least 4 characters").max(100, "Password is too long")
 });
 
 // Credentials Interface (I = Interface):
@@ -24,7 +24,7 @@ export class CredentialsModel implements ICredentialsModel {
     public validate(): void {
         const result = CredentialsSchema.safeParse(this);
         if (!result.success) {
-            const message = result.error.issues[0].path + ": " + result.error.issues[0].message;
+            const message = result.error.issues[0].message;
             throw new ClientError(StatusCode.UnprocessableContent, message);
         }
     }

@@ -5,10 +5,10 @@ import { Role, StatusCode } from "./enums";
 // user Schema:
 const UserSchema = z.object({
     userId: z.number().int().positive().optional(),
-    firstName: z.string().min(2).max(50),
-    lastName: z.string().min(2).max(50),
-    email: z.email().max(100),
-    password: z.string().min(4).max(100),
+    firstName: z.string().min(2, "First name must be 2-50 characters").max(50, "First name must be 2-50 characters"),
+    lastName: z.string().min(2, "Last name must be 2-50 characters").max(50, "Last name must be 2-50 characters"),
+    email: z.email("Please enter a valid email").max(100, "Email is too long"),
+    password: z.string().min(4, "Password must be at least 4 characters").max(100, "Password is too long"),
     roleId: z.enum(Role).optional()
 });
 
@@ -36,7 +36,7 @@ export class UserModel implements IUserModel {
     public validate(): void {
         const result = UserSchema.safeParse(this);
         if(!result.success){
-            const message = result.error.issues[0].path + ": " + result.error.issues[0].message;
+            const message = result.error.issues[0].message;
             throw new ClientError(StatusCode.UnprocessableContent, message)
         }
     }

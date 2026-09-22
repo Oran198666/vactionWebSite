@@ -6,12 +6,12 @@ import { StatusCode } from "./enums";
 // Vacation Schema - matches the DB columns:
 export const VacationSchema = z.object({
     vacationId: z.number().int().positive().optional(),
-    destination: z.string().min(2).max(100),
-    continent: z.string().min(2).max(30),
-    description: z.string().min(2).max(1000),
+    destination: z.string().min(2, "Destination must be 2-100 characters").max(100, "Destination must be 2-100 characters"),
+    continent: z.string().min(2, "Please select a continent").max(30, "Please select a continent"),
+    description: z.string().min(2, "Description must be 2-1000 characters").max(1000, "Description must be 2-1000 characters"),
     startDate: z.string(),
     endDate: z.string(),
-    price: z.number().min(0).max(10000),
+    price: z.number("Price must be a number").min(0, "Price can't be negative").max(10000, "Price can't be above 10,000"),
     imageName: z.string().max(255).optional()
 });
 
@@ -51,8 +51,7 @@ export class VacationModel implements IVacationModel {
     public validate(): void {
         const result = VacationSchema.safeParse(this);
         if (!result.success) {
-            const issue = result.error.issues[0];
-            const message = `${issue.path.join(".")}: ${issue.message}`;
+            const message = result.error.issues[0].message;
             throw new ClientError(StatusCode.UnprocessableContent, message);
         }
     }
