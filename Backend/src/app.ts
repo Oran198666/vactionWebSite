@@ -19,8 +19,9 @@ class App {
 
     public async start(): Promise<void> {
 
-        // Configure smart-saver - images path:
-        fileSaver.config(path.join(__dirname, "1-assets", "images"))
+        //Images folder: relative to where the app was started,
+        //so it works for both src (dev) and dist (build)
+        fileSaver.config(path.join(process.cwd(), "src", "1-assets", "images"));
         await mcpClient.init();
 
         // Create our server object & System middleware
@@ -57,4 +58,4 @@ const app = new App();
 app.start().catch(err => console.log(err));
 
 
-// taskkill /F /IM node.exe
+///// taskkill /F /IM node.exe

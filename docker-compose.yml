@@ -1,0 +1,28 @@
+services:
+
+  mysql-service:
+
+    image: mysql:8
+
+    container_name: mysql-container
+
+    restart: unless-stopped
+
+    ports:
+      - 3307:3306
+
+    volumes:
+      - mysql-volume:/var/lib/mysql
+      - ./Database:/docker-entrypoint-initdb.d:ro
+
+    environment:
+      MYSQL_DATABASE: vacations
+      MYSQL_ROOT_PASSWORD: xaxasxasxasdasdasdsadasdasdasdasdasd
+
+
+
+#------------------------------------
+
+# List of all our named-volumes:
+volumes:
+  mysql-volume:

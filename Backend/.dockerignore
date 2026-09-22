@@ -1,0 +1,10 @@
+node_modules
+npm-debug.log
+.env
+.git
+.gitignore
+dist
+Dockerfile
+.dockerignore
+*.postman_collection.json
+postman
