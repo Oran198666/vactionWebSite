@@ -4,14 +4,6 @@
 
 A vacations app: users browse and like vacations, admins manage them. React + Redux frontend, Express + TypeScript backend, MySQL database, plus AI and MCP features.
 
-## Login details
-
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | admin@vacations.com | Test1234 |
-| User | dana@gmail.com | Test1234 |
-
-Other users (`yossi@gmail.com`, `maya@gmail.com`) use the same password.
 
 ## Stack
 
