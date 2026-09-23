@@ -1,5 +1,9 @@
 # Project overview
 
+**Repo:** [Oran198666/vactionWebSite]
+
+(https://github.com/Oran198666/vactionWebSite)
+
 A vacations app: users browse/like vacations, admins manage them. React + Redux
 frontend, Express + TypeScript backend, MySQL database, plus an AI/MCP feature.
 Written as a learning reference — read the "why", not just the "what".
