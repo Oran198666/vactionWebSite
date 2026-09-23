@@ -1,8 +1,6 @@
 # Project overview
 
-**Repo:** [Oran198666/vactionWebSite]
-
-(https://github.com/Oran198666/vactionWebSite)
+**Repo:** [Oran198666/vactionWebSite](https://github.com/Oran198666/vactionWebSite)
 
 A vacations app: users browse/like vacations, admins manage them. React + Redux
 frontend, Express + TypeScript backend, MySQL database, plus an AI/MCP feature.
@@ -15,7 +13,7 @@ Written as a learning reference — read the "why", not just the "what".
 | Frontend | React 19, Vite, Redux Toolkit, React Router, React Hook Form, Axios, Recharts |
 | Backend  | Express 5, TypeScript, mysql2, JWT auth, Zod validation, OpenAI SDK, MCP SDK |
 | Database | MySQL 8 |
-| Infra    | Docker (in progress — see [DOCKER.md](DOCKER.md)) |
+| Infra    | Docker (in progress) |
 
 ## Folder structure
 
@@ -84,8 +82,8 @@ calls)** → **redux slice (state)**.
 
 ## Running with Docker
 
-See [DOCKER.md](DOCKER.md) — MySQL service is done; backend/frontend services
-are in progress.
+MySQL service is done (`docker-compose.yml`); backend/frontend services are
+in progress.
 
 ## Other references
 
