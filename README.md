@@ -1,10 +1,17 @@
 # Project overview
 
-**Repo:** [Oran198666/vactionWebSite](https://github.com/Oran198666/vactionWebSite)
+**Repo:** https://github.com/Oran198666/vactionWebSite
 
-A vacations app: users browse/like vacations, admins manage them. React + Redux
-frontend, Express + TypeScript backend, MySQL database, plus an AI/MCP feature.
-Written as a learning reference — read the "why", not just the "what".
+A vacations app: users browse and like vacations, admins manage them. React + Redux frontend, Express + TypeScript backend, MySQL database, plus AI and MCP features.
+
+## Login details
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@vacations.com | Test1234 |
+| User | dana@gmail.com | Test1234 |
+
+Other users (`yossi@gmail.com`, `maya@gmail.com`) use the same password.
 
 ## Stack
 
@@ -31,7 +38,7 @@ Frontend/
   src/
     components/
       admin-area/       # add/edit vacation, admin dashboard, reports
-      ai-area/          # chat-style AI page + MCP page
+      ai-area/          # AI recommendation page + MCP question page
       auth-area/        # login, register, auth-guard (route protection)
       layout-area/      # header, menu, routing, copyrights
       pages-area/       # home, about, 404
@@ -57,11 +64,8 @@ calls)** → **redux slice (state)**.
 - **Vacations** — CRUD (admin) + browse/filter (all users), image upload via
   `express-fileupload` + `uploaded-file-saver`.
 - **Likes** — per-user like/unlike on vacations.
-- **Reports** — admin-only, likely aggregating likes per vacation (see
-  `reports-service.ts` / `reports.tsx` + `recharts` on the frontend for charts).
-- **AI / MCP** — `ai-controller`/`ai-service` talk to OpenAI; the `mcp/` folder
-  implements the Model Context Protocol so the AI can call tools against this
-  app's own data (`mcp-tools.ts`, `mcp-register.ts`).
+- **Reports** — admin-only chart of likes per destination (Recharts), plus a CSV download of the same data.
+- **AI / MCP** — `ai-service` calls OpenAI for a travel recommendation for any destination. The `mcp/` folder runs an MCP server inside the backend with four tools: active vacations, average price, all vacations, and future vacations by continent. The model calls these tools to answer plain-English questions with real database data.
 
 ## Environment variables
 
@@ -75,10 +79,16 @@ calls)** → **redux slice (state)**.
 
 ## Running locally (without Docker)
 
-1. `Database/vacations.sql` needs to be loaded into a local MySQL instance.
-2. `cd Backend && npm install && npm run build && npm start` (or a dev/watch
-   script if one exists — check `Backend/package.json` scripts).
-3. `cd Frontend && npm install && npm run dev`.
+**Prerequisites:** Node.js 24, MySQL 8.
+
+1. Import `Database/vacations.sql` into your local MySQL.
+2. Create `Backend/.env` and `Frontend/.env` (see Environment variables above).
+3. Backend: `cd Backend && npm install && npm run dev`
+4. Frontend: `cd Frontend && npm install && npm run dev`
+
+The site runs on http://localhost:5173 and the API on http://localhost:4000.
+
+The AI recommendation and MCP pages require a valid `OPENAI_API_KEY` in `Backend/.env`.
 
 ## Running with Docker
 
@@ -87,5 +97,4 @@ in progress.
 
 ## Other references
 
-- `Backend/*.postman_collection.json` — Postman collection for the API (54
-  requests, 80 tests per the commit history).
+- `Backend/*.postman_collection.json` — Postman collection for the API (54 requests, 80 tests).
