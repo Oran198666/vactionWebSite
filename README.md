@@ -12,7 +12,7 @@ A vacations app: users browse and like vacations, admins manage them. React + Re
 | Frontend | React 19, Vite, Redux Toolkit, React Router, React Hook Form, Axios, Recharts |
 | Backend  | Express 5, TypeScript, mysql2, JWT auth, Zod validation, OpenAI SDK, MCP SDK |
 | Database | MySQL 8 |
-| Infra    | Docker (in progress) |
+| Infra    | Docker Compose (mysql + backend + frontend) |
 
 ## Folder structure
 
@@ -63,8 +63,7 @@ calls)** → **redux slice (state)**.
 
 ### Backend (`Backend/.env`, git-ignored)
 `PORT`, `ENVIRONMENT`, `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`,
-`MYSQL_DATABASE`, `JWT_SECRET`, `HASH_SALT`, `RECAPTCHA_SECRET_KEY`,
-`OPENAI_MODEL`, `OPENAI_API_KEY`.
+`MYSQL_DATABASE`, `JWT_SECRET`, `HASH_SALT`, `OPENAI_MODEL`, `OPENAI_API_KEY`.
 
 ### Frontend (`Frontend/.env`, git-ignored)
 `VITE_API_URL` — base URL the frontend calls the backend on.
@@ -84,8 +83,34 @@ The AI recommendation and MCP pages require a valid `OPENAI_API_KEY` in `Backend
 
 ## Running with Docker
 
-MySQL service is done (`docker-compose.yml`); backend/frontend services are
-in progress.
+**Prerequisites:** Docker Desktop.
+
+From the project root:
+
+```
+docker compose up -d --build
+```
+
+This starts three containers:
+
+| Container | Image | Port (host → container) |
+|-----------|-------|-------------------------|
+| `mysql-container` | mysql:8 | 3307 → 3306 |
+| `vacation-backend-container` | built from `Backend/Dockerfile` | 4000 → 4000 |
+| `vacation-frontend-container` | built from `Frontend/Dockerfile` | 80 → 5173 |
+
+Open the site at http://localhost
+
+`Database/vacations.sql` is imported automatically the first time MySQL starts. The backend waits for a MySQL healthcheck before it boots, and uploaded images are stored on the host through a volume, so they survive a restart.
+
+To reset the database and re-import the SQL file:
+
+```
+docker compose down -v
+docker compose up -d --build
+```
+
+`Backend/.env` is required for the backend container (compose overrides `MYSQL_HOST` and `MYSQL_PORT` so it reaches the MySQL container).
 
 ## Other references
 
