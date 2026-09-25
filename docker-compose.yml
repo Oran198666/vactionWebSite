@@ -17,18 +17,62 @@ services:
 
     environment:
       MYSQL_DATABASE: vacations
-      MYSQL_ROOT_PASSWORD: xaxasxasxasdasdasdsadasdasdasdasdasd
+      MYSQL_ROOT_PASSWORD: "Pa$$w0rd"
 
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p$$MYSQL_ROOT_PASSWORD"]
-      interval: 5s
+      start_period: 10s
+      interval: 30s
       timeout: 5s
       retries: 10
-      start_period: 10s
+
+  #---------------------------------------------------------------
+  # Our backend service:
+  backend-service:
+
+    image: vacation-backend
+
+    build: ./Backend
+
+    container_name: vacation-backend-container
+
+    ports:
+      - 4000:4000
+
+    restart: unless-stopped
+
+    volumes:
+      - ./Backend/src/1-assets:/app/src/1-assets
+
+    env_file: ./Backend/.env
+    environment:
+      MYSQL_HOST: mysql-service
+      MYSQL_PORT: 3306
+      MYSQL_PASSWORD: "Pa$$w0rd"
+
+    depends_on:
+      mysql-service:
+        condition: service_healthy
 
 
+#---------------------------------------------------------------
+  # Our frontend service:
+  frontend-service:
+    image: vacation-frontend
 
-#------------------------------------
+    build: ./Frontend
+
+    container_name: vacation-frontend-container
+
+    ports:
+      - 80:5173
+
+    restart: unless-stopped
+
+    depends_on:
+      - backend-service
+
+
 
 # List of all our named-volumes:
 volumes:
