@@ -59,7 +59,7 @@ class SecurityMiddleware {
         // General rate-limit:
         server.use(expressRateLimit({
             windowMs: 1000, // Time window in milliseconds.
-            limit: 20, // How many requests allowed in that window.
+            limit: 50, // How many requests allowed in that window.
             skip: (request: Request) => request.path.startsWith("/api/vacations/images/") // Skip when requesting images
         }));
 

@@ -24,7 +24,7 @@ class AuthService {
         }
 
         //hash
-        user.password = cyber.hashPassword(user.password);
+        user.password = await cyber.hashPassword(user.password);
 
         //sql
         const sql = "insert into users(firstName, lastName, email, password, roleId) values(?, ?, ?, ?, ?)";
@@ -55,14 +55,15 @@ class AuthService {
         //validate credentials
         credentials.validate();
 
-        //compare the email to password against the hash
-        const sql = "select * from users where email = ? and password = ?";
-        const values = [credentials.email, cyber.hashPassword(credentials.password)]
+        //find the user by email
+        const sql = "select * from users where email = ?";
+        const values = [credentials.email];
 
         const users = await dal.execute(sql, values) as UserModel[];
         const user = users[0];
 
-        if (!user) {
+        //reject if no user with that email, or the password doesn't match the hash
+        if (!user || !(await cyber.comparePassword(credentials.password, user.password))) {
             throw new ClientError(StatusCode.Unauthorized, "Incorrect email or password");
         }
         return cyber.generateToken(user);

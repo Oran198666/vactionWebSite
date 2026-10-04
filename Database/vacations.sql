@@ -70,7 +70,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Admin','User','admin@vacations.com','ba431eec3692e176763de001eb9a4829ab105abefb2259bc36f07df10ba578eb9c6a66983bd58157967f539b8e497eba2b7ea0d4d1007290b77dd761c5b9e0e2',1),(2,'Dana','Levi','dana@gmail.com','ba431eec3692e176763de001eb9a4829ab105abefb2259bc36f07df10ba578eb9c6a66983bd58157967f539b8e497eba2b7ea0d4d1007290b77dd761c5b9e0e2',2),(3,'Yossi','Cohen','yossi@gmail.com','ba431eec3692e176763de001eb9a4829ab105abefb2259bc36f07df10ba578eb9c6a66983bd58157967f539b8e497eba2b7ea0d4d1007290b77dd761c5b9e0e2',2),(4,'Maya','Bar','maya@gmail.com','ba431eec3692e176763de001eb9a4829ab105abefb2259bc36f07df10ba578eb9c6a66983bd58157967f539b8e497eba2b7ea0d4d1007290b77dd761c5b9e0e2',2),(17,'oran','sasson','oran86@gmail.com','c2e4d8a9775504ae13fd7705a8599aa10e43a5d7c7725428488702975d0f3b21ad74ce6d1a7abd80c0979ae300ec1475566ec77a3fd33d6815def84822cbece9',2);
+INSERT INTO `users` VALUES (1,'Admin','User','admin@vacations.com','$2b$10$Y/BvLksO8PDzhFm/huHC3OMoF28ogc2gjFyzKiK2xxKe0Rqcuvg3u',1),(2,'Dana','Levi','dana@gmail.com','$2b$10$Y/BvLksO8PDzhFm/huHC3OMoF28ogc2gjFyzKiK2xxKe0Rqcuvg3u',2),(3,'Yossi','Cohen','yossi@gmail.com','$2b$10$Y/BvLksO8PDzhFm/huHC3OMoF28ogc2gjFyzKiK2xxKe0Rqcuvg3u',2),(4,'Maya','Bar','maya@gmail.com','$2b$10$Y/BvLksO8PDzhFm/huHC3OMoF28ogc2gjFyzKiK2xxKe0Rqcuvg3u',2),(17,'oran','sasson','oran86@gmail.com','$2b$10$Y/BvLksO8PDzhFm/huHC3OMoF28ogc2gjFyzKiK2xxKe0Rqcuvg3u',2);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 

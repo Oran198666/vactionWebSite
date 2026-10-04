@@ -25,6 +25,7 @@ class VacationsController {
         try {
             const token = request.headers.authorization?.substring(7);
             const user = cyber.getUserFromToken(token!);
+            if (!user) throw new ClientError(StatusCode.Unauthorized, "You are not logged in");
 
             //Query params are strings - page defaults to 1, filter to none:
             //block negative pages

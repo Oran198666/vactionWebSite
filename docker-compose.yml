@@ -17,7 +17,7 @@ services:
 
     environment:
       MYSQL_DATABASE: vacations
-      MYSQL_ROOT_PASSWORD: "Pa$$w0rd"
+      MYSQL_ROOT_PASSWORD: "rootUser1234"
 
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p$$MYSQL_ROOT_PASSWORD"]
@@ -48,7 +48,7 @@ services:
     environment:
       MYSQL_HOST: mysql-service
       MYSQL_PORT: 3306
-      MYSQL_PASSWORD: "Pa$$w0rd"
+      MYSQL_PASSWORD: "rootUser1234"
 
     depends_on:
       mysql-service:

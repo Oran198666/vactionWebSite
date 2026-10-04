@@ -9,7 +9,7 @@ import { ClientError } from "../models/client-error";
 class LikesController {
     public router: Router = express.Router();
 
-    public constructor(){
+    public constructor() {
         this.router.post("/api/vacations/:vacationId/like", securityMiddleware.verifyLoggedIn, this.addLike);
         this.router.delete("/api/vacations/:vacationId/like", securityMiddleware.verifyLoggedIn, this.removeLike);
     }
@@ -18,11 +18,12 @@ class LikesController {
         try {
             const token = request.headers.authorization?.substring(7);
             const user = cyber.getUserFromToken(token!);
-            if(user.roleId === Role.Admin) throw new ClientError(StatusCode.Forbidden,"leave the likes for the users");
+            if (!user) throw new ClientError(StatusCode.Unauthorized, "You are not logged in");
+            if (user.roleId === Role.Admin) throw new ClientError(StatusCode.Forbidden, "leave the likes for the users");
             const vacationId = +(request.params.vacationId as string);
             await likesService.addLike(user.userId!, vacationId);
             response.sendStatus(StatusCode.NoContent);
-        }catch (err: any) {
+        } catch (err: any) {
             next(err);
         }
     }
@@ -31,11 +32,12 @@ class LikesController {
         try {
             const token = request.headers.authorization?.substring(7);
             const user = cyber.getUserFromToken(token!);
-            if(user.roleId === Role.Admin) throw new ClientError(StatusCode.Forbidden,"leave the likes for the users");
+            if (!user) throw new ClientError(StatusCode.Unauthorized, "You are not logged in");
+            if (user.roleId === Role.Admin) throw new ClientError(StatusCode.Forbidden, "leave the likes for the users");
             const vacationId = +(request.params.vacationId as string);
             await likesService.removeLike(user.userId!, vacationId);
             response.sendStatus(StatusCode.NoContent);
-        }catch (err: any) {
+        } catch (err: any) {
             next(err);
         }
     }

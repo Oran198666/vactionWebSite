@@ -18,8 +18,8 @@ export default defineConfig([
     languageOptions: {
       globals: globals.browser,
     },
-    // Redux reducers receive (state, action) even when one is unused —
-    // the underscore prefix marks it deliberate, and this rule allows it.
+    //Reports unused TypeScript variables as errors, while allowing
+    // variables/arguments prefixed with _ when intentionally unused.
     rules: {
       '@typescript-eslint/no-unused-vars': ['error', {
         argsIgnorePattern: '^_',
