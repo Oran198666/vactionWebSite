@@ -75,7 +75,8 @@ class VacationsService {
     public async getAveragePrice(): Promise<number> {
         const sql = "SELECT ROUND(AVG(price), 2) AS averagePrice FROM vacations";
         const result = await dal.execute(sql) as { averagePrice: number }[];
-        return result[0].averagePrice;
+        //stop instead of crashing. Null value - use 0.
+        return result[0]?.averagePrice ?? 0;
     }
 
     public async getFutureVacationsByRegion(region: string): Promise<VacationModel[]> {
@@ -94,19 +95,28 @@ class VacationsService {
     public async addVacation(vacation: VacationModel): Promise<VacationModel> {
         vacation.validate();
         //must add img
-        if(!vacation.image) throw new ClientError(StatusCode.UnprocessableContent, "Please add an image")
+        if (!vacation.image) throw new ClientError(StatusCode.UnprocessableContent, "Please add an image")
         //past-date
-        if(vacation.startDate <= new Date().toISOString().slice(0,10)){
+        if (vacation.startDate <= new Date().toISOString().slice(0, 10)) {
             throw new ClientError(StatusCode.UnprocessableContent, "Start date must be after today")
         }
         //same-day
-        if(vacation.endDate <= vacation.startDate){
-            throw new ClientError(StatusCode.UnprocessableContent,"End date must be after start date(at least a day gap)")
+        if (vacation.endDate <= vacation.startDate) {
+            throw new ClientError(StatusCode.UnprocessableContent, "End date must be after start date(at least a day gap)")
         }
-        vacation.imageName = await fileSaver.add(vacation.image);
-        const sql = "INSERT INTO vacations (destination, continent, description, startDate, endDate, price, imageName) VALUES (?,?,?,?,?,?,?)";
-        const info = await dal.execute(sql, [vacation.destination, vacation.continent, vacation.description, vacation.startDate, vacation.endDate, vacation.price, vacation.imageName]) as OkPacketParams;
-        vacation.vacationId = info.insertId;
+
+        // Save the file first - outside the try, so the catch only deletes a file that exists
+        const imageName = await fileSaver.add(vacation.image);
+        vacation.imageName = imageName;
+
+        try {
+            const sql = "INSERT INTO vacations (destination, continent, description, startDate, endDate, price, imageName) VALUES (?,?,?,?,?,?,?)";
+            const info = await dal.execute(sql, [vacation.destination, vacation.continent, vacation.description, vacation.startDate, vacation.endDate, vacation.price, imageName]) as OkPacketParams;
+            vacation.vacationId = info.insertId;
+        } catch (err) {
+            await fileSaver.delete(imageName);
+            throw err;
+        }
         /// disable huge array of numbers in the response
         delete vacation.image;
         return vacation;
@@ -114,15 +124,20 @@ class VacationsService {
 
     public async updateVacation(vacation: VacationModel): Promise<VacationModel> {
         vacation.validate();
-        if(vacation.endDate <= vacation.startDate){
-            throw new ClientError(StatusCode.UnprocessableContent, "End date must be after start date")
+
+        //same-day
+        if (vacation.endDate <= vacation.startDate) {
+            throw new ClientError(StatusCode.UnprocessableContent, "End date must be after start date(at least a day gap)")
         }
+
+        const existing = await this.getOneVacation(vacation.vacationId!);
+
         if (vacation.image) {
-            const oldName = (await this.getOneVacation(vacation.vacationId!)).imageName;
-            vacation.imageName = await fileSaver.update(oldName!, vacation.image);
+            vacation.imageName = await fileSaver.update(existing.imageName!, vacation.image);
         } else {
-            vacation.imageName = (await this.getOneVacation(vacation.vacationId!)).imageName;
+            vacation.imageName = existing.imageName;
         }
+
         const sql = `UPDATE vacations SET destination = ?, continent = ?, description = ?, startDate = ?, endDate = ?, price = ?, imageName = ? where vacationId = ?`;
         const info = await dal.execute(sql, [vacation.destination, vacation.continent, vacation.description, vacation.startDate, vacation.endDate, vacation.price, vacation.imageName, vacation.vacationId]) as OkPacketParams;
         if (info.affectedRows === 0) {

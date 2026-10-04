@@ -15,7 +15,8 @@ class ReportsService {
     public getCsvReport = async (): Promise<string> => {
         const report = await this.getLikesReport();
         const header = "Destination,Likes";
-        const rows = report.map(row => `"${row.destination}",${row.likes}`);
+        // inserting quote in destination breaks the CSV column - double it so Excel reads it correctly
+        const rows = report.map(row => `"${row.destination.replace(/"/g, '""')}",${row.likes}`);
         const total = report.reduce((sum, row) => sum + row.likes, 0);
         return [header, ...rows, `"TOTAL",${total}`].join("\n");
     }

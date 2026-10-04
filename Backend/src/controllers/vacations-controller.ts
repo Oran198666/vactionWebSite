@@ -65,7 +65,8 @@ class VacationsController {
     private addVacation = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
         try {
             const vacation = new VacationModel(request.body);
-            if(!request.body.price){
+            //prevent missing price
+            if (request.body.price === undefined || request.body.price === "") {
                 throw new ClientError(StatusCode.UnprocessableContent, "Price is required.");
             }
             vacation.price = +vacation.price;
@@ -81,8 +82,9 @@ class VacationsController {
     private updateVacation = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
         try {
             const vacation = new VacationModel(request.body);
-                if(!request.body.price){
-                    throw new ClientError(StatusCode.UnprocessableContent, "Price is required.");
+            //prevent missing price
+            if (request.body.price === undefined || request.body.price === "") {
+                throw new ClientError(StatusCode.UnprocessableContent, "Price is required.");
             }
             vacation.vacationId = +(request.params.vacationId as string);
             vacation.price = +vacation.price;

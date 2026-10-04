@@ -1,10 +1,14 @@
 import OpenAI from "openai";
 import { appConfig } from "../utils/app-config";
+import { ClientError } from "../models/client-error";
+import { StatusCode } from "../models/enums";
 
 class AiService {
     private readonly openai = new OpenAI({ apiKey: appConfig.openaiApiKey });
 
     public getRecommendation = async (destination: string): Promise<string> => {
+        //token waste prevention
+        if(destination.length > 100) throw new ClientError(StatusCode.UnprocessableContent,"Destination is too long")
         const response = await this.openai.chat.completions.create({
             model: appConfig.openaiModel,
             messages: [
