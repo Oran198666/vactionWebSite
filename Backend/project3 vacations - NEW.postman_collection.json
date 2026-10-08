@@ -1,46 +1,12 @@
 {
   "info": {
-    "_postman_id": "3d01ec93-22ae-493f-af15-e1fe9ecb0349",
+    "_postman_id": "6eb16df1-9c41-4b45-9574-8ed30f786fcd",
     "name": "project3 vacations - NEW",
     "description": "Run top to bottom (Collection Runner works). Folder 1 logs in and saves tokens. Copy test-image.jpg into your Postman working directory (Settings > General > Working directory) for the upload requests.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56552664",
+    "_collection_link": "https://go.postman.co/collection/56552664-6eb16df1-9c41-4b45-9574-8ed30f786fcd?source=collection_link"
   },
-  "auth": {
-    "type": "bearer",
-    "bearer": [
-      {
-        "key": "token",
-        "value": "{{adminToken}}",
-        "type": "string"
-      }
-    ]
-  },
-  "variable": [
-    {
-      "key": "baseUrl",
-      "value": "http://localhost:4000"
-    },
-    {
-      "key": "adminToken",
-      "value": ""
-    },
-    {
-      "key": "userToken",
-      "value": ""
-    },
-    {
-      "key": "vacationId",
-      "value": ""
-    },
-    {
-      "key": "imageName",
-      "value": ""
-    },
-    {
-      "key": "newVacationId",
-      "value": ""
-    }
-  ],
   "item": [
     {
       "name": "1. Auth",
@@ -53,15 +19,26 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
-                  "pm.collectionVariables.set(\"adminToken\", pm.response.json());"
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));\npm.collectionVariables.set(\"adminToken\", pm.response.json());"
                 ]
               }
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@vacations.com\",\n    \"password\": \"rootUser1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/api/login",
               "host": [
@@ -71,20 +48,60 @@
                 "api",
                 "login"
               ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register - new user (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));"
+                ]
+              }
             },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"testEmail\", \"test\" + Date.now() + \"@test.com\");\r\npm.collectionVariables.set(\"testPassword\", \"Test1234\");"
+                ]
+              }
+            }
+          ],
+          "request": {
             "auth": {
               "type": "noauth"
             },
+            "method": "POST",
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"admin@vacations.com\",\n    \"password\": \"Test1234\"\n}",
+              "raw": "{\n    \"firstName\": \"Holy\",\n    \"lastName\": \"Moses\",\n    \"email\": \"{{testEmail}}\",\n    \"password\": \"{{testPassword}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
-            }
-          }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            },
+            "description": "Creates a new user with a random email on every run."
+          },
+          "response": []
         },
         {
           "name": "Login user",
@@ -94,15 +111,26 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
-                  "pm.collectionVariables.set(\"userToken\", pm.response.json());"
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));\npm.collectionVariables.set(\"userToken\", pm.response.json());"
                 ]
               }
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"{{testEmail}}\",\n    \"password\": \"{{testPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/api/login",
               "host": [
@@ -112,20 +140,9 @@
                 "api",
                 "login"
               ]
-            },
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"email\": \"dana@gmail.com\",\n    \"password\": \"Test1234\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Login - email with spaces is trimmed",
@@ -141,8 +158,20 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"  admin@vacations.com  \",\n    \"password\": \"rootUser1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/api/login",
               "host": [
@@ -152,20 +181,9 @@
                 "api",
                 "login"
               ]
-            },
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"email\": \"  admin@vacations.com  \",\n    \"password\": \"Test1234\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Login - wrong password (401)",
@@ -182,8 +200,20 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@vacations.com\",\n    \"password\": \"Wrong1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/api/login",
               "host": [
@@ -193,61 +223,9 @@
                 "api",
                 "login"
               ]
-            },
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"email\": \"admin@vacations.com\",\n    \"password\": \"Wrong1234\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
-          }
-        },
-        {
-          "name": "Register - new user (201)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/register",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "register"
-              ]
-            },
-            "description": "Creates a new user with a random email on every run.",
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"firstName\": \"Postman\",\n    \"lastName\": \"Tester\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"Test1234\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
+          },
+          "response": []
         },
         {
           "name": "Register - email taken (409)",
@@ -264,8 +242,20 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Test\",\n    \"lastName\": \"User\",\n    \"email\": \"admin@vacations.com\",\n    \"password\": \"Test1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/api/register",
               "host": [
@@ -275,20 +265,9 @@
                 "api",
                 "register"
               ]
-            },
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"firstName\": \"Test\",\n    \"lastName\": \"User\",\n    \"email\": \"admin@vacations.com\",\n    \"password\": \"Test1234\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Register - invalid email (422)",
@@ -305,8 +284,20 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Test\",\n    \"lastName\": \"User\",\n    \"email\": \"not-an-email\",\n    \"password\": \"Test1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/api/register",
               "host": [
@@ -316,20 +307,9 @@
                 "api",
                 "register"
               ]
-            },
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"firstName\": \"Test\",\n    \"lastName\": \"User\",\n    \"email\": \"not-an-email\",\n    \"password\": \"Test1234\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Register - short password (422)",
@@ -346,8 +326,20 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Test\",\n    \"lastName\": \"User\",\n    \"email\": \"short@test.com\",\n    \"password\": \"12\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/api/register",
               "host": [
@@ -357,20 +349,9 @@
                 "api",
                 "register"
               ]
-            },
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"firstName\": \"Test\",\n    \"lastName\": \"User\",\n    \"email\": \"short@test.com\",\n    \"password\": \"12\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
-          }
+          },
+          "response": []
         }
       ],
       "description": "Run first: the two Login requests save adminToken and userToken."
@@ -407,7 +388,8 @@
                 "vacations"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get all - no token (401)",
@@ -424,6 +406,9 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -435,11 +420,9 @@
                 "api",
                 "vacations"
               ]
-            },
-            "auth": {
-              "type": "noauth"
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get one vacation",
@@ -468,7 +451,8 @@
                 "{{vacationId}}"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get one - not found (404)",
@@ -498,7 +482,8 @@
                 "99999"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get image (public)",
@@ -514,6 +499,9 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -527,11 +515,9 @@
                 "images",
                 "{{imageName}}"
               ]
-            },
-            "auth": {
-              "type": "noauth"
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -570,7 +556,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Page 2",
@@ -604,7 +591,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Negative page returns page 1",
@@ -638,7 +626,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Filter - liked (user)",
@@ -654,6 +643,16 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -671,18 +670,9 @@
                   "value": "liked"
                 }
               ]
-            },
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{userToken}}",
-                  "type": "string"
-                }
-              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Filter - active now",
@@ -716,7 +706,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Filter - not started",
@@ -750,7 +741,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Filter + page",
@@ -788,7 +780,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -812,16 +805,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations"
-              ]
-            },
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -861,8 +844,19 @@
                   "src": "test-image.jpg"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Add - as user (403)",
@@ -879,18 +873,6 @@
             }
           ],
           "request": {
-            "method": "POST",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations"
-              ]
-            },
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -901,6 +883,8 @@
                 }
               ]
             },
+            "method": "POST",
+            "header": [],
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -940,8 +924,19 @@
                   "src": "test-image.jpg"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Add - all fields empty (422)",
@@ -960,16 +955,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations"
-              ]
-            },
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -1004,8 +989,19 @@
                   "type": "text"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Add - missing image (422)",
@@ -1024,16 +1020,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations"
-              ]
-            },
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -1068,8 +1054,19 @@
                   "type": "text"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Add - price above 10000 (422)",
@@ -1088,16 +1085,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations"
-              ]
-            },
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -1137,8 +1124,19 @@
                   "src": "test-image.jpg"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Add - negative price (422)",
@@ -1157,16 +1155,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations"
-              ]
-            },
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -1206,8 +1194,19 @@
                   "src": "test-image.jpg"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Add - past start date (422)",
@@ -1226,16 +1225,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations"
-              ]
-            },
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -1275,8 +1264,19 @@
                   "src": "test-image.jpg"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Add - end before start (422)",
@@ -1295,16 +1295,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations"
-              ]
-            },
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -1344,8 +1334,19 @@
                   "src": "test-image.jpg"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Add - description too short (422)",
@@ -1364,16 +1365,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations"
-              ]
-            },
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -1413,8 +1404,19 @@
                   "src": "test-image.jpg"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations"
+              ]
             }
-          }
+          },
+          "response": []
         }
       ],
       "description": "Add vacation (201) saves newVacationId, used by the Edit and Delete folders."
@@ -1438,17 +1440,6 @@
           "request": {
             "method": "PUT",
             "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations/{{newVacationId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations",
-                "{{newVacationId}}"
-              ]
-            },
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -1483,8 +1474,20 @@
                   "type": "text"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations/{{newVacationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations",
+                "{{newVacationId}}"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Edit - past dates allowed (200)",
@@ -1502,17 +1505,6 @@
           "request": {
             "method": "PUT",
             "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations/{{newVacationId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations",
-                "{{newVacationId}}"
-              ]
-            },
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -1547,8 +1539,20 @@
                   "type": "text"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations/{{newVacationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations",
+                "{{newVacationId}}"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Edit - end before start (422)",
@@ -1567,17 +1571,6 @@
           "request": {
             "method": "PUT",
             "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations/{{newVacationId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations",
-                "{{newVacationId}}"
-              ]
-            },
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -1612,8 +1605,20 @@
                   "type": "text"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations/{{newVacationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations",
+                "{{newVacationId}}"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Edit - price above 10000 (422)",
@@ -1632,17 +1637,6 @@
           "request": {
             "method": "PUT",
             "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations/{{newVacationId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations",
-                "{{newVacationId}}"
-              ]
-            },
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -1677,8 +1671,20 @@
                   "type": "text"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations/{{newVacationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations",
+                "{{newVacationId}}"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Edit - as user (403)",
@@ -1695,19 +1701,6 @@
             }
           ],
           "request": {
-            "method": "PUT",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/vacations/{{newVacationId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "vacations",
-                "{{newVacationId}}"
-              ]
-            },
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -1718,6 +1711,8 @@
                 }
               ]
             },
+            "method": "PUT",
+            "header": [],
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -1752,8 +1747,20 @@
                   "type": "text"
                 }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vacations/{{newVacationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vacations",
+                "{{newVacationId}}"
+              ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -1774,6 +1781,16 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [],
             "url": {
@@ -1787,18 +1804,9 @@
                 "{{vacationId}}",
                 "like"
               ]
-            },
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{userToken}}",
-                  "type": "string"
-                }
-              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Like again - no duplicate (user)",
@@ -1814,6 +1822,16 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [],
             "url": {
@@ -1827,18 +1845,9 @@
                 "{{vacationId}}",
                 "like"
               ]
-            },
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{userToken}}",
-                  "type": "string"
-                }
-              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Unlike (user)",
@@ -1854,6 +1863,16 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "DELETE",
             "header": [],
             "url": {
@@ -1867,18 +1886,9 @@
                 "{{vacationId}}",
                 "like"
               ]
-            },
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{userToken}}",
-                  "type": "string"
-                }
-              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Like - as admin (403)",
@@ -1909,7 +1919,8 @@
                 "like"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Like - no token (401)",
@@ -1926,6 +1937,9 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
             "url": {
@@ -1939,11 +1953,9 @@
                 "{{vacationId}}",
                 "like"
               ]
-            },
-            "auth": {
-              "type": "noauth"
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -1977,7 +1989,8 @@
                 "likes"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "CSV download",
@@ -2006,7 +2019,8 @@
                 "csv"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Likes report - as user (403)",
@@ -2023,6 +2037,16 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -2035,18 +2059,9 @@
                 "reports",
                 "likes"
               ]
-            },
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{userToken}}",
-                  "type": "string"
-                }
-              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "CSV - as user (403)",
@@ -2063,6 +2078,16 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -2075,18 +2100,9 @@
                 "reports",
                 "csv"
               ]
-            },
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{userToken}}",
-                  "type": "string"
-                }
-              ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -2107,6 +2123,16 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -2120,18 +2146,9 @@
                 "recommendation",
                 "Rome"
               ]
-            },
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{userToken}}",
-                  "type": "string"
-                }
-              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Recommendation - fake destination",
@@ -2147,6 +2164,16 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -2160,18 +2187,9 @@
                 "recommendation",
                 "Xyzqwerty"
               ]
-            },
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{userToken}}",
-                  "type": "string"
-                }
-              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Recommendation - no token (401)",
@@ -2188,6 +2206,9 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -2201,11 +2222,9 @@
                 "recommendation",
                 "Rome"
               ]
-            },
-            "auth": {
-              "type": "noauth"
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -2226,18 +2245,6 @@
             }
           ],
           "request": {
-            "method": "POST",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/mcp",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "mcp"
-              ]
-            },
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -2248,6 +2255,8 @@
                 }
               ]
             },
+            "method": "POST",
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"question\": \"How many active vacations are there right now?\"\n}",
@@ -2256,8 +2265,19 @@
                   "language": "json"
                 }
               }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/mcp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "mcp"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Average price",
@@ -2273,18 +2293,6 @@
             }
           ],
           "request": {
-            "method": "POST",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/mcp",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "mcp"
-              ]
-            },
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -2295,6 +2303,8 @@
                 }
               ]
             },
+            "method": "POST",
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"question\": \"What is the average price of the vacations?\"\n}",
@@ -2303,8 +2313,19 @@
                   "language": "json"
                 }
               }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/mcp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "mcp"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Future vacations in Europe",
@@ -2320,18 +2341,6 @@
             }
           ],
           "request": {
-            "method": "POST",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/mcp",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "mcp"
-              ]
-            },
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -2342,6 +2351,8 @@
                 }
               ]
             },
+            "method": "POST",
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"question\": \"Which future vacations exist for European countries?\"\n}",
@@ -2350,8 +2361,19 @@
                   "language": "json"
                 }
               }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/mcp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "mcp"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Empty question (400)",
@@ -2368,18 +2390,6 @@
             }
           ],
           "request": {
-            "method": "POST",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/mcp",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "mcp"
-              ]
-            },
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -2390,6 +2400,8 @@
                 }
               ]
             },
+            "method": "POST",
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"question\": \"\"\n}",
@@ -2398,8 +2410,19 @@
                   "language": "json"
                 }
               }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/mcp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "mcp"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "No token (401)",
@@ -2416,8 +2439,20 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"question\": \"How many vacations are there?\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/api/mcp",
               "host": [
@@ -2427,20 +2462,9 @@
                 "api",
                 "mcp"
               ]
-            },
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"question\": \"How many vacations are there?\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -2462,6 +2486,16 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "DELETE",
             "header": [],
             "url": {
@@ -2474,18 +2508,9 @@
                 "vacations",
                 "{{newVacationId}}"
               ]
-            },
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{userToken}}",
-                  "type": "string"
-                }
-              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Delete vacation (204)",
@@ -2514,7 +2539,8 @@
                 "{{newVacationId}}"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Delete - already deleted (404)",
@@ -2544,10 +2570,55 @@
                 "{{newVacationId}}"
               ]
             }
-          }
+          },
+          "response": []
         }
       ],
       "description": "Deletes the vacation created in folder 4, so the DB is left clean."
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{adminToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:4000"
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "userToken",
+      "value": ""
+    },
+    {
+      "key": "vacationId",
+      "value": ""
+    },
+    {
+      "key": "imageName",
+      "value": ""
+    },
+    {
+      "key": "newVacationId",
+      "value": ""
+    },
+    {
+      "key": "testEmail",
+      "value": ""
+    },
+    {
+      "key": "testPassword",
+      "value": ""
     }
   ]
 }

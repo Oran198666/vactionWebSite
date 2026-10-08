@@ -63,7 +63,7 @@ calls)** → **redux slice (state)**.
 
 ### Backend (`Backend/.env`, git-ignored)
 `PORT`, `ENVIRONMENT`, `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`,
-`MYSQL_DATABASE`, `JWT_SECRET`, `HASH_SALT`, `OPENAI_MODEL`, `OPENAI_API_KEY`.
+`MYSQL_DATABASE`, `JWT_SECRET`, `OPENAI_MODEL`, `OPENAI_API_KEY`.
 
 ### Frontend (`Frontend/.env`, git-ignored)
 `VITE_API_URL` — base URL the frontend calls the backend on.
